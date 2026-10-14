@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTimeline } from './hooks/useTimeline';
+import { CinematicBackground } from './components/Background/CinematicBackground';
 import { ThreeScene } from './components/Canvas/ThreeScene';
 import { HeaderNav } from './components/Navigation/HeaderNav';
 import { HudOverlay } from './components/HUD/HudOverlay';
@@ -26,7 +27,6 @@ export const App: React.FC = () => {
   // Keyboard navigation shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if typing in an input
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
 
       if (e.code === 'Space') {
@@ -47,19 +47,22 @@ export const App: React.FC = () => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-slate-950 font-sans">
-      {/* 3D WebGL Three.js Canvas Scene */}
+      {/* 1. Photorealistic 16:9 Cinematic Background with Smooth Ken Burns Motion */}
+      <CinematicBackground currentTime={currentTime} />
+
+      {/* 2. 3D WebGL Holographic Telemetry Overlay */}
       <ThreeScene progress={progress} currentTime={currentTime} />
 
-      {/* Top Aerospace Telemetry Navigation */}
+      {/* 3. Top Aerospace Telemetry Navigation */}
       <HeaderNav activeChapter={activeChapter} />
 
-      {/* Left Aerospace HUD Information Overlay */}
+      {/* 4. Sleek Aerospace HUD Information Overlay */}
       <HudOverlay activeChapter={activeChapter} />
 
-      {/* Bottom Center Dynamic Cinematic Subtitles */}
+      {/* 5. Bottom Center Dynamic Cinematic Subtitles */}
       <CinemaSubtitles text={activeChapter.subtitles} />
 
-      {/* Bottom Floating Control Dock */}
+      {/* 6. Floating Control Dock */}
       <BottomDock
         currentTime={currentTime}
         duration={duration}

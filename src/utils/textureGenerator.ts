@@ -12,38 +12,38 @@ export function createBuildingTexture(): THREE.CanvasTexture {
   canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
 
-  // Dark building facade background
-  ctx.fillStyle = '#0a101d';
+  // Deep architectural glass/concrete facade
+  ctx.fillStyle = '#080e1a';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const cols = 12;
-  const rows = 32;
-  const padX = 14;
-  const padY = 12;
+  const cols = 14;
+  const rows = 36;
+  const padX = 10;
+  const padY = 10;
   const w = (canvas.width - padX * (cols + 1)) / cols;
   const h = (canvas.height - padY * (rows + 1)) / rows;
 
   for (let r = 0; r < rows; r++) {
+    // Structural floor separator line
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, r * (h + padY), canvas.width, 3);
+
     for (let c = 0; c < cols; c++) {
       const x = padX + c * (w + padX);
       const y = padY + r * (h + padY);
 
-      // Random window illumination state (warm yellow, cool cyan, or dark)
       const rand = Math.random();
-      if (rand > 0.45) {
-        if (rand > 0.8) {
-          ctx.fillStyle = '#38bdf8'; // Cyan office screen glow
-        } else if (rand > 0.6) {
-          ctx.fillStyle = '#fef08a'; // Warm office light
+      if (rand > 0.42) {
+        if (rand > 0.82) {
+          ctx.fillStyle = '#38bdf8'; // Cyan screen glow
+        } else if (rand > 0.58) {
+          ctx.fillStyle = '#fef08a'; // Warm amber office light
         } else {
-          ctx.fillStyle = '#67e8f9'; // Bright cyan
+          ctx.fillStyle = '#bae6fd'; // Clean daylight fluorescent
         }
-        ctx.shadowColor = ctx.fillStyle;
-        ctx.shadowBlur = 4;
         ctx.fillRect(x, y, w, h);
       } else {
-        ctx.fillStyle = '#060a12'; // Dark unlit office
-        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#050912'; // Dark unlit office
         ctx.fillRect(x, y, w, h);
       }
     }
@@ -55,228 +55,303 @@ export function createBuildingTexture(): THREE.CanvasTexture {
   return texture;
 }
 
-// 2. High-Tech Airplane Livery & Panels Texture
+// 2. High-Tech Aerodynamic Jet Fuselage & Wing Livery
 export function createAirplaneTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
-  canvas.width = 1024;
-  canvas.height = 512;
+  canvas.width = 2048;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
 
-  // Pearlescent aeronautic white base
+  // Aeronautics pearl white metallic gradient
   const grad = ctx.createLinearGradient(0, 0, canvas.width, 0);
   grad.addColorStop(0, '#f8fafc');
-  grad.addColorStop(0.5, '#e2e8f0');
+  grad.addColorStop(0.3, '#ffffff');
+  grad.addColorStop(0.7, '#e2e8f0');
   grad.addColorStop(1, '#cbd5e1');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Aerodynamic fuselage panel lines
-  ctx.strokeStyle = '#94a3b8';
-  ctx.lineWidth = 1.5;
-  for (let x = 60; x < canvas.width; x += 80) {
+  // Fuselage Panel Joints
+  ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)';
+  ctx.lineWidth = 2;
+  for (let x = 100; x < canvas.width; x += 120) {
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.lineTo(x, canvas.height);
     ctx.stroke();
   }
 
-  // Cyan and Navy Speed Stripes along the fuselage
-  ctx.fillStyle = '#0284c7';
-  ctx.fillRect(0, 230, canvas.width, 16);
+  // Aeronautic Speed Stripes (Navy, Cyan, Cobalt)
+  ctx.fillStyle = '#0369a1';
+  ctx.fillRect(0, 470, canvas.width, 24);
   ctx.fillStyle = '#00f0ff';
-  ctx.fillRect(0, 250, canvas.width, 8);
+  ctx.fillRect(0, 498, canvas.width, 10);
+  ctx.fillStyle = '#0284c7';
+  ctx.fillRect(0, 512, canvas.width, 6);
 
-  // Cockpit windows row (tinted polarized glass)
+  // Streamlined Cockpit Canopy Windows
   ctx.fillStyle = '#030712';
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 4; i++) {
     ctx.beginPath();
-    ctx.roundRect(140 + i * 36, 180, 26, 32, 6);
+    ctx.roundRect(160 + i * 55, 390, 44, 52, 10);
     ctx.fill();
-    // Glass specular reflection highlight
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-    ctx.fillRect(144 + i * 36, 184, 8, 24);
+    // Glass reflection highlight
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+    ctx.fillRect(168 + i * 55, 396, 12, 40);
     ctx.fillStyle = '#030712';
   }
 
-  // Passenger windows row
-  for (let i = 0; i < 22; i++) {
+  // Passenger Windows
+  for (let i = 0; i < 28; i++) {
     ctx.beginPath();
-    ctx.roundRect(400 + i * 26, 195, 14, 20, 5);
+    ctx.roundRect(460 + i * 48, 415, 22, 34, 8);
     ctx.fill();
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.fillRect(464 + i * 48, 419, 6, 26);
+    ctx.fillStyle = '#030712';
   }
 
   const texture = new THREE.CanvasTexture(canvas);
   return texture;
 }
 
-// 3. Polished Airport Concourse Marble Floor Texture
+// 3. Polished Airport Concourse Marble Floor Texture with Real Tile Grid
 export function createAirportFloorTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = 1024;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
 
-  // Deep dark reflective granite tile
-  ctx.fillStyle = '#060d1a';
+  // Deep charcoal reflective stone
+  ctx.fillStyle = '#080f1e';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Subtle marble veining
+  // Marble veining
   ctx.strokeStyle = 'rgba(2, 132, 199, 0.12)';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(0, 80);
-  ctx.bezierCurveTo(120, 140, 300, 40, 512, 180);
-  ctx.moveTo(0, 340);
-  ctx.bezierCurveTo(180, 280, 340, 420, 512, 390);
+  ctx.moveTo(0, 150);
+  ctx.bezierCurveTo(240, 280, 600, 80, 1024, 360);
+  ctx.moveTo(0, 680);
+  ctx.bezierCurveTo(360, 560, 680, 840, 1024, 780);
   ctx.stroke();
 
-  // Fine tile joints / grid
-  ctx.strokeStyle = '#0f172a';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeRect(canvas.width / 2, 0, canvas.width / 2, canvas.height);
-  ctx.strokeRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+  // Subtle tile grid lines (illuminated grout)
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 4;
+  const tileSize = 256;
+  for (let x = 0; x <= canvas.width; x += tileSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 0; y <= canvas.height; y += tileSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(16, 32);
+  texture.repeat.set(12, 12);
   return texture;
 }
 
-// 4. CABIS Smart Biometric OLED Gate Screen Texture
+// 4. CABIS Smart Biometric OLED Gate Screen Texture (Sharp & High Tech)
 export function createCabisScreenTexture(granted: boolean = false): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
   canvas.width = 512;
-  canvas.height = 512;
+  canvas.height = 800;
   const ctx = canvas.getContext('2d')!;
 
-  // Dark OLED background with glowing border
-  ctx.fillStyle = '#030712';
+  // Deep black glass OLED screen
+  ctx.fillStyle = '#020617';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  // Outer Glowing Border
   ctx.strokeStyle = granted ? '#10b981' : '#00f0ff';
-  ctx.lineWidth = 8;
-  ctx.strokeRect(8, 8, canvas.width - 16, canvas.height - 16);
+  ctx.lineWidth = 10;
+  ctx.strokeRect(12, 12, canvas.width - 24, canvas.height - 24);
 
-  // Top Header: System Title
+  // Screen Header
   ctx.fillStyle = granted ? '#10b981' : '#00f0ff';
-  ctx.font = 'bold 24px "JetBrains Mono", monospace';
+  ctx.font = 'bold 28px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('CABIS // BIOMETRIC GATE', canvas.width / 2, 54);
+  ctx.fillText('CABIS // BIOMETRIC GATE', canvas.width / 2, 70);
+  ctx.font = '16px "JetBrains Mono", monospace';
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillText('HENRI COANDĂ AIRPORT — BUCAREST', canvas.width / 2, 102);
 
-  // Biometric Target Frame
+  // Biometric Target Frame Box
+  const frameY = 140;
+  const frameSize = 340;
+  const frameX = (canvas.width - frameSize) / 2;
+
   ctx.strokeStyle = granted ? '#10b981' : '#38bdf8';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(136, 90, 240, 240);
+  ctx.lineWidth = 4;
+  ctx.strokeRect(frameX, frameY, frameSize, frameSize);
 
-  // Stylized Human Face Silhouette inside frame
+  // Target Corner Crosshairs
+  const cLen = 30;
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = granted ? '#34d399' : '#00f0ff';
+  // Top-Left
+  ctx.beginPath(); ctx.moveTo(frameX - 4, frameY + cLen); ctx.lineTo(frameX - 4, frameY - 4); ctx.lineTo(frameX + cLen, frameY - 4); ctx.stroke();
+  // Top-Right
+  ctx.beginPath(); ctx.moveTo(frameX + frameSize + 4 - cLen, frameY - 4); ctx.lineTo(frameX + frameSize + 4, frameY - 4); ctx.lineTo(frameX + frameSize + 4, frameY + cLen); ctx.stroke();
+  // Bottom-Left
+  ctx.beginPath(); ctx.moveTo(frameX - 4, frameY + frameSize - cLen); ctx.lineTo(frameX - 4, frameY + frameSize + 4); ctx.lineTo(frameX + cLen, frameY + frameSize + 4); ctx.stroke();
+  // Bottom-Right
+  ctx.beginPath(); ctx.moveTo(frameX + frameSize + 4 - cLen, frameY + frameSize + 4); ctx.lineTo(frameX + frameSize + 4, frameY + frameSize + 4); ctx.lineTo(frameX + frameSize + 4, frameY + frameSize - cLen); ctx.stroke();
+
+  // Face Silhouette
   ctx.fillStyle = '#0f172a';
   ctx.beginPath();
-  ctx.arc(canvas.width / 2, 180, 50, 0, Math.PI * 2);
+  ctx.arc(canvas.width / 2, frameY + 120, 65, 0, Math.PI * 2);
   ctx.fill();
   ctx.beginPath();
-  ctx.ellipse(canvas.width / 2, 280, 75, 45, 0, Math.PI, 0);
+  ctx.ellipse(canvas.width / 2, frameY + 260, 105, 65, 0, Math.PI, 0);
   ctx.fill();
 
-  // Biometric Scan Markers (eye points, nose, mouth mesh)
+  // Biometric Facial Recognition Nodes & Delaunay Mesh
   ctx.fillStyle = granted ? '#34d399' : '#00f0ff';
-  const pts = [
-    [230, 175], [282, 175], // Eyes
-    [256, 195],             // Nose
-    [242, 212], [270, 212], // Mouth
-    [200, 150], [312, 150], // Brow corners
-    [256, 235]              // Chin
+  const points = [
+    [210, frameY + 115], [302, frameY + 115], // Eyes
+    [256, frameY + 145],                     // Nose
+    [235, frameY + 175], [277, frameY + 175], // Mouth
+    [185, frameY + 90],  [327, frameY + 90],  // Brows
+    [256, frameY + 215]                      // Chin
   ];
-  pts.forEach(([px, py]) => {
+  points.forEach(([px, py]) => {
     ctx.beginPath();
-    ctx.arc(px, py, 4, 0, Math.PI * 2);
+    ctx.arc(px, py, 6, 0, Math.PI * 2);
     ctx.fill();
   });
 
-  // Connecting mesh lines
-  ctx.strokeStyle = granted ? 'rgba(16, 185, 129, 0.4)' : 'rgba(0, 240, 255, 0.4)';
-  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = granted ? 'rgba(16, 185, 129, 0.6)' : 'rgba(0, 240, 255, 0.6)';
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(230, 175);
-  ctx.lineTo(256, 195);
-  ctx.lineTo(282, 175);
-  ctx.lineTo(270, 212);
-  ctx.lineTo(242, 212);
+  ctx.moveTo(210, frameY + 115); ctx.lineTo(256, frameY + 145); ctx.lineTo(302, frameY + 115);
+  ctx.lineTo(277, frameY + 175); ctx.lineTo(256, frameY + 215); ctx.lineTo(235, frameY + 175);
   ctx.closePath();
   ctx.stroke();
 
-  // Horizontal Scan Line
+  // Scanning laser sweep bar
   ctx.strokeStyle = granted ? '#10b981' : '#00f0ff';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 4;
   ctx.beginPath();
-  ctx.moveTo(136, 210);
-  ctx.lineTo(376, 210);
+  ctx.moveTo(frameX + 10, frameY + 160);
+  ctx.lineTo(frameX + frameSize - 10, frameY + 160);
   ctx.stroke();
 
-  // Status Banner at Bottom
+  // Telemetry Metrics Box
+  ctx.fillStyle = '#0b1528';
+  ctx.fillRect(40, 520, 432, 100);
+  ctx.strokeStyle = '#1e293b';
+  ctx.strokeRect(40, 520, 432, 100);
+
+  ctx.font = '14px "JetBrains Mono", monospace';
+  ctx.fillStyle = '#94a3b8';
+  ctx.textAlign = 'left';
+  ctx.fillText('PASSPORT ID : RO-FRA-2026-VIE', 60, 550);
+  ctx.fillText('FACIAL MATCH SCORE : 99.8%', 60, 575);
+  ctx.fillText('STATUS : EN RÈGLE // VÉRIFIÉ', 60, 600);
+
+  // Bottom Big Access Banner
   if (granted) {
     ctx.fillStyle = '#064e3b';
-    ctx.fillRect(40, 360, 432, 100);
+    ctx.fillRect(40, 640, 432, 110);
     ctx.strokeStyle = '#10b981';
-    ctx.strokeRect(40, 360, 432, 100);
+    ctx.lineWidth = 4;
+    ctx.strokeRect(40, 640, 432, 110);
 
+    ctx.textAlign = 'center';
     ctx.fillStyle = '#10b981';
-    ctx.font = 'bold 30px "JetBrains Mono", monospace';
-    ctx.fillText('ACCESS GRANTED', canvas.width / 2, 405);
+    ctx.font = 'bold 36px "JetBrains Mono", monospace';
+    ctx.fillText('ACCESS GRANTED', canvas.width / 2, 695);
     ctx.font = '18px "JetBrains Mono", monospace';
     ctx.fillStyle = '#a7f3d0';
-    ctx.fillText('PASSPORT & BIOMETRICS MATCH : 99.8%', canvas.width / 2, 438);
+    ctx.fillText('PASSAGE AUTORISÉ', canvas.width / 2, 730);
   } else {
     ctx.fillStyle = '#082f49';
-    ctx.fillRect(40, 360, 432, 100);
+    ctx.fillRect(40, 640, 432, 110);
     ctx.strokeStyle = '#0284c7';
-    ctx.strokeRect(40, 360, 432, 100);
+    ctx.lineWidth = 4;
+    ctx.strokeRect(40, 640, 432, 110);
 
+    ctx.textAlign = 'center';
     ctx.fillStyle = '#00f0ff';
-    ctx.font = 'bold 28px "JetBrains Mono", monospace';
-    ctx.fillText('SCAN EN COURS...', canvas.width / 2, 405);
+    ctx.font = 'bold 32px "JetBrains Mono", monospace';
+    ctx.fillText('SCANNING...', canvas.width / 2, 695);
     ctx.font = '18px "JetBrains Mono", monospace';
     ctx.fillStyle = '#bae6fd';
-    ctx.fillText('VEUILLEZ REGARDER L\'OBJECTIF', canvas.width / 2, 438);
+    ctx.fillText('REGARDEZ L\'OBJECTIF', canvas.width / 2, 730);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
   return texture;
 }
 
-// 5. Airport Runway Asphalt Texture with Markings
+// 5. Airport Overhead Directional Signage
+export function createAirportSignTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d')!;
+
+  // Signboard Navy Black Background
+  ctx.fillStyle = '#020617';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Bright Cyan Top Border
+  ctx.fillStyle = '#00f0ff';
+  ctx.fillRect(0, 0, canvas.width, 10);
+
+  // Sign Text
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 44px "Inter", sans-serif';
+  ctx.fillText('SMART BORDER CONTROL // CONTRÔLE BIOMÉTRIQUE', canvas.width / 2, 90);
+
+  ctx.fillStyle = '#10b981';
+  ctx.font = 'bold 32px "JetBrains Mono", monospace';
+  ctx.fillText('PROJET CABIS — PORTIQUES AUTOMATISÉS (e-GATES)', canvas.width / 2, 150);
+
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '22px "JetBrains Mono", monospace';
+  ctx.fillText('ALL PASSPORTS ACCEPTED • FACIAL RECOGNITION ACTIVE', canvas.width / 2, 205);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  return texture;
+}
+
+// 6. Airport Runway Asphalt Texture with Markings
 export function createRunwayTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
   canvas.width = 512;
   canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
 
-  // Dark asphalt base
-  ctx.fillStyle = '#090e17';
+  // Dark tarmac asphalt base
+  ctx.fillStyle = '#070b12';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Asphalt grain noise
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-  for (let i = 0; i < 4000; i++) {
-    const rx = Math.random() * canvas.width;
-    const ry = Math.random() * canvas.height;
-    ctx.fillRect(rx, ry, 2, 2);
-  }
-
-  // Runway Center Line Stripes (White dashed line)
+  // White runway dashed center line
   ctx.fillStyle = '#f8fafc';
-  const stripeW = 20;
-  const stripeH = 90;
-  const gap = 60;
+  const stripeW = 24;
+  const stripeH = 100;
+  const gap = 70;
   for (let y = 30; y < canvas.height; y += stripeH + gap) {
     ctx.fillRect((canvas.width - stripeW) / 2, y, stripeW, stripeH);
   }
 
-  // Runway Edge Guide Lines (Solid Yellow)
+  // Yellow Taxiway Edge Lines
   ctx.fillStyle = '#eab308';
-  ctx.fillRect(36, 0, 10, canvas.height);
-  ctx.fillRect(canvas.width - 46, 0, 10, canvas.height);
+  ctx.fillRect(28, 0, 12, canvas.height);
+  ctx.fillRect(canvas.width - 40, 0, 12, canvas.height);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
