@@ -30,6 +30,26 @@ export function useTimeline(): UseTimelineReturn {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lastTickRef = useRef<number>(performance.now());
   const rafIdRef = useRef<number | null>(null);
+  const internalTimeRef = useRef<number>(0);
+  const lastStateUpdateRef = useRef<number>(0);
+
+  // Expose global seek for automated video rendering
+  useEffect(() => {
+    (window as any).seekTimeline = (t: number) => {
+      internalTimeRef.current = Math.max(0, Math.min(TOTAL_DURATION, t));
+      setCurrentTime(internalTimeRef.current);
+      if (audioRef.current) {
+        audioRef.current.currentTime = internalTimeRef.current;
+      }
+      if ((window as any).renderSceneAt) {
+        (window as any).renderSceneAt(internalTimeRef.current);
+      }
+    };
+
+    return () => {
+      delete (window as any).seekTimeline;
+    };
+  }, []);
 
   // Initialize Audio element
   useEffect(() => {
@@ -67,18 +87,16 @@ export function useTimeline(): UseTimelineReturn {
     if (!audio) return;
 
     if (isPlaying && audioEnabled) {
-      if (Math.abs(audio.currentTime - currentTime) > 0.3) {
+      if (Math.abs(audio.currentTime - currentTime) > 0.35) {
         audio.currentTime = currentTime;
       }
-      audio.play().catch(() => {
-        // Autoplay policy fallback
-      });
+      audio.play().catch(() => {});
     } else {
       audio.pause();
     }
   }, [isPlaying, audioEnabled, currentTime]);
 
-  // Main animation frame loop for high precision timeline
+  // Main high-precision animation loop with throttled React state dispatch
   useEffect(() => {
     if (!isPlaying) {
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
@@ -91,14 +109,20 @@ export function useTimeline(): UseTimelineReturn {
       const dt = (now - lastTickRef.current) / 1000;
       lastTickRef.current = now;
 
-      setCurrentTime((prev) => {
-        const next = prev + dt;
-        if (next >= TOTAL_DURATION) {
-          setIsPlaying(false);
-          return TOTAL_DURATION;
-        }
-        return next;
-      });
+      internalTimeRef.current += dt;
+
+      if (internalTimeRef.current >= TOTAL_DURATION) {
+        internalTimeRef.current = TOTAL_DURATION;
+        setCurrentTime(TOTAL_DURATION);
+        setIsPlaying(false);
+        return;
+      }
+
+      // Throttle React state re-renders to ~20 FPS (every 50ms) to ensure smooth 60 FPS WebGL rendering without CPU choke
+      if (now - lastStateUpdateRef.current > 50) {
+        lastStateUpdateRef.current = now;
+        setCurrentTime(internalTimeRef.current);
+      }
 
       rafIdRef.current = requestAnimationFrame(loop);
     };
@@ -112,19 +136,21 @@ export function useTimeline(): UseTimelineReturn {
 
   const togglePlay = useCallback(() => {
     setIsPlaying(prev => {
-      if (!prev && currentTime >= TOTAL_DURATION) {
+      if (!prev && internalTimeRef.current >= TOTAL_DURATION) {
+        internalTimeRef.current = 0;
         setCurrentTime(0);
       }
       return !prev;
     });
-  }, [currentTime]);
+  }, []);
 
   const play = useCallback(() => {
-    if (currentTime >= TOTAL_DURATION) {
+    if (internalTimeRef.current >= TOTAL_DURATION) {
+      internalTimeRef.current = 0;
       setCurrentTime(0);
     }
     setIsPlaying(true);
-  }, [currentTime]);
+  }, []);
 
   const pause = useCallback(() => {
     setIsPlaying(false);
@@ -132,6 +158,7 @@ export function useTimeline(): UseTimelineReturn {
 
   const seekTo = useCallback((time: number) => {
     const clamped = Math.max(0, Math.min(TOTAL_DURATION, time));
+    internalTimeRef.current = clamped;
     setCurrentTime(clamped);
     if (audioRef.current) {
       audioRef.current.currentTime = clamped;
