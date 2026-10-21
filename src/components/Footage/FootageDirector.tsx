@@ -196,30 +196,7 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
       {/* 2. TOP TELEMETRY NAVIGATION BAR */}
       <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 py-5 border-b border-white/10 bg-slate-950/50 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          {onTogglePlay && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onTogglePlay(); }}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
-                isPlaying 
-                  ? 'bg-slate-800/90 hover:bg-slate-700 text-amber-300 border border-amber-400/30' 
-                  : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(0,240,255,0.5)]'
-              }`}
-              title={isPlaying ? "Mettre en pause (Espace)" : "Lancer la lecture (Espace)"}
-            >
-              {isPlaying ? (
-                <>
-                  <span className="w-2 h-2 rounded-sm bg-amber-400" />
-                  <span>PAUSE</span>
-                </>
-              ) : (
-                <>
-                  <span className="w-2 h-2 border-l-[6px] border-l-slate-950 border-y-[4px] border-y-transparent" />
-                  <span>LECTURE</span>
-                </>
-              )}
-            </button>
-          )}
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
           <div className="flex flex-col">
             <span className="font-mono text-[10px] tracking-[0.25em] text-slate-400 uppercase">Grand Prix V.I.E Roumanie 2026 // Documentary Feature</span>
             <span className="text-xs font-bold text-white tracking-wide">THOMAS MARTINEZ — FULL-STACK & SCRUM MASTER</span>

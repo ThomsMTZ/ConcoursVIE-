@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Play, 
   Pause, 
   RotateCcw, 
   Volume2, 
   VolumeX, 
-  Video, 
-  ChevronRight,
-  Sparkles
+  Maximize2,
+  Minimize2,
+  Download
 } from 'lucide-react';
 import { STORY_CHAPTERS, TOTAL_DURATION } from '../../data/storyData';
 
@@ -21,14 +21,11 @@ interface BottomDockProps {
   activeChapterIndex: number;
   audioEnabled: boolean;
   viewMode?: ViewMode;
-  isRecordingMode?: boolean;
   onTogglePlay: () => void;
   onRestart: () => void;
   onSeek: (time: number) => void;
   onJumpToChapter: (index: number) => void;
   onToggleAudio: () => void;
-  onStartRecording: () => void;
-  onExitRecording?: () => void;
   onSelectViewMode?: (mode: ViewMode) => void;
 }
 
@@ -40,36 +37,32 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   activeChapterIndex,
   audioEnabled,
   viewMode = 'cinematic',
-  isRecordingMode = false,
   onTogglePlay,
   onRestart,
   onSeek,
   onJumpToChapter,
   onToggleAudio,
-  onStartRecording,
-  onExitRecording,
   onSelectViewMode
 }) => {
-  const [isMouseIdle, setIsMouseIdle] = useState<boolean>(false);
-  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleMouseMove = () => {
-      setIsMouseIdle(false);
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-      if (isPlaying && isRecordingMode) {
-        idleTimerRef.current = setTimeout(() => {
-          setIsMouseIdle(true);
-        }, 2500);
-      }
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
     };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    };
-  }, [isPlaying, isRecordingMode]);
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -84,11 +77,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   };
 
   return (
-    <footer className={`bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/95 border-t border-white/10 px-3 md:px-8 py-3 backdrop-blur-xl transition-all duration-500 ${
-      isRecordingMode && isMouseIdle && isPlaying 
-        ? 'opacity-0 translate-y-8 pointer-events-none' 
-        : 'opacity-100 translate-y-0 pointer-events-auto'
-    }`}>
+    <footer className="bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/95 border-t border-white/10 px-3 md:px-8 py-3 backdrop-blur-xl transition-all duration-300">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5 md:gap-4">
         
         {/* Main Controls */}
@@ -250,24 +239,37 @@ export const BottomDock: React.FC<BottomDockProps> = ({
             </>
           )}
 
-          {isRecordingMode ? (
-            <button
-              onClick={onExitRecording}
-              className="flex items-center gap-1.5 bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 border border-rose-400/50 text-xs font-mono font-semibold px-3 py-2 rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.3)] cursor-pointer"
-              title="Quitter le mode épuré (Touche Échap)"
-            >
-              <span>✕ QUITTER LE MODE ÉPURÉ (ÉCHAP)</span>
-            </button>
-          ) : (
-            <button
-              onClick={onStartRecording}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-rose-950/80 to-purple-950/80 hover:from-rose-900 hover:to-purple-900 border border-rose-500/40 text-rose-200 text-xs font-mono font-semibold px-3 py-2 rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.2)] cursor-pointer"
-              title="Passer en vue épurée sans interface (auto-masquage)"
-            >
-              <Video className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
-              <span className="hidden sm:inline">MODE ÉPURÉ</span>
-            </button>
-          )}
+          {/* Fullscreen Button */}
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            className="flex items-center gap-1.5 bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white font-mono text-xs px-3 py-1.5 rounded-lg border border-white/10 transition-colors cursor-pointer"
+            title={isFullscreen ? "Quitter le plein écran (Échap ou F11)" : "Passer en plein écran (F11)"}
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize2 className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="hidden sm:inline">FENÊTRÉ</span>
+              </>
+            ) : (
+              <>
+                <Maximize2 className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="hidden sm:inline">PLEIN ÉCRAN</span>
+              </>
+            )}
+          </button>
+
+          {/* Download Official 1080p60 Video Button */}
+          <a
+            href={`${import.meta.env.BASE_URL}MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4`}
+            download="MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4"
+            className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-mono font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all active:scale-95 cursor-pointer"
+            title="Télécharger la vidéo officielle du concours (1080p 60fps MP4, 85.00s)"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">TÉLÉCHARGER MP4</span>
+            <span className="sm:hidden">MP4</span>
+          </a>
         </div>
 
       </div>

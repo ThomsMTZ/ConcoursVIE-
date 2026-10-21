@@ -21,14 +21,11 @@ export const App: React.FC = () => {
     activeChapter,
     activeChapterIndex,
     audioEnabled,
-    isRecordingMode,
     togglePlay,
     restart,
     seekTo,
     jumpToChapter,
-    toggleAudio,
-    startRecordingMode,
-    exitRecordingMode
+    toggleAudio
   } = useTimeline();
 
   // View Mode: 'cinematic' | 'keynote' | 'footage' | 'cockpit'
@@ -125,14 +122,11 @@ export const App: React.FC = () => {
         activeChapterIndex={activeChapterIndex}
         audioEnabled={audioEnabled}
         viewMode={viewMode}
-        isRecordingMode={isRecordingMode}
         onTogglePlay={togglePlay}
         onRestart={restart}
         onSeek={seekTo}
         onJumpToChapter={jumpToChapter}
         onToggleAudio={toggleAudio}
-        onStartRecording={startRecordingMode}
-        onExitRecording={exitRecordingMode}
         onSelectViewMode={(mode) => setViewMode(mode)}
       />
     </div>
