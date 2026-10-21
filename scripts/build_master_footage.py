@@ -51,6 +51,8 @@ def build_master_footage():
     # Inputs
     for s in SHOTS:
         input_path = os.path.join(root_dir, s["file"])
+        if "ss" in s:
+            cmd.extend(["-ss", str(s["ss"])])
         cmd.extend(["-t", str(s["dur"]), "-i", input_path])
         
     # Filter graph
