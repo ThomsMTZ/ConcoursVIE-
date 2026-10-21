@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import { STORY_CHAPTERS, TOTAL_DURATION } from '../../data/storyData';
 
+export type ViewMode = 'cinematic' | 'keynote' | 'footage' | 'cockpit';
+
 interface BottomDockProps {
   currentTime: number;
   duration: number;
@@ -18,12 +20,14 @@ interface BottomDockProps {
   isPlaying: boolean;
   activeChapterIndex: number;
   audioEnabled: boolean;
+  viewMode?: ViewMode;
   onTogglePlay: () => void;
   onRestart: () => void;
   onSeek: (time: number) => void;
   onJumpToChapter: (index: number) => void;
   onToggleAudio: () => void;
   onStartRecording: () => void;
+  onSelectViewMode?: (mode: ViewMode) => void;
 }
 
 export const BottomDock: React.FC<BottomDockProps> = ({
@@ -33,12 +37,14 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   isPlaying,
   activeChapterIndex,
   audioEnabled,
+  viewMode = 'cinematic',
   onTogglePlay,
   onRestart,
   onSeek,
   onJumpToChapter,
   onToggleAudio,
-  onStartRecording
+  onStartRecording,
+  onSelectViewMode
 }) => {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -163,8 +169,57 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           </div>
         </div>
 
-        {/* Cinematic Recording Button */}
-        <div className="flex items-center gap-2">
+        {/* View Mode Selector: 3 Directions + Cockpit */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-white/10 backdrop-blur-xl">
+          {onSelectViewMode && (
+            <>
+              <button
+                onClick={() => onSelectViewMode('cinematic')}
+                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
+                  viewMode === 'cinematic'
+                    ? 'bg-cyan-500 text-black font-bold shadow-lg shadow-cyan-500/20'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Direction 1 : Film multi-plans avec parallaxe 2.5D, nuages et laser"
+              >
+                1. CINÉ 2.5D
+              </button>
+              <button
+                onClick={() => onSelectViewMode('keynote')}
+                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
+                  viewMode === 'keynote'
+                    ? 'bg-emerald-400 text-black font-bold shadow-lg shadow-emerald-400/20'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Direction 2 : Apple Keynote, typographie cinétique et métriques"
+              >
+                2. KEYNOTE
+              </button>
+              <button
+                onClick={() => onSelectViewMode('footage')}
+                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
+                  viewMode === 'footage'
+                    ? 'bg-amber-400 text-black font-bold shadow-lg shadow-amber-400/20'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Direction 3 : Véritables clips vidéo réels (B-Roll documentaire)"
+              >
+                3. FOOTAGE
+              </button>
+              <button
+                onClick={() => onSelectViewMode('cockpit')}
+                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
+                  viewMode === 'cockpit'
+                    ? 'bg-sky-500 text-black font-bold shadow-lg shadow-sky-500/20'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+                title="Version originale V1 Cockpit HUD"
+              >
+                V1 HUD
+              </button>
+            </>
+          )}
+
           <button
             onClick={onStartRecording}
             className="flex items-center gap-1.5 bg-gradient-to-r from-rose-950/80 to-purple-950/80 hover:from-rose-900 hover:to-purple-900 border border-rose-500/40 text-rose-200 text-xs font-mono font-semibold px-3 py-2 rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.2)]"

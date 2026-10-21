@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "render:audio": "python scripts/generate-voiceover.py",
     "render:video": "node scripts/render-mp4.js",
-    "render:all": "npm run build && npm run render:audio && npm run render:video"
+    "render:all": "npm run render:audio && npm run build && npm run render:video"
   },
   "dependencies": {
     "react": "^18.3.1",

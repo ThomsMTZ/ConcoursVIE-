@@ -1,0 +1,321 @@
+{
+  "timestamp_utc": "2026-10-14T12:00:04Z",
+  "target_file": "C:\\Users\\Thomas Martinez\\Documents\\GitHub\\ConcoursVIE\\dist\\MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4",
+  "verdict": "APPROVE",
+  "cadence_stress_test": {
+    "status": "PASS",
+    "total_frames": 5100,
+    "expected_frames": 5100,
+    "first_pts": 0,
+    "last_pts": 1305344,
+    "stream_duration_sec": 84.99999966666667,
+    "expected_delta_pts": 256,
+    "min_delta_pts": 256,
+    "max_delta_pts": 256,
+    "mean_delta_pts": 256.0,
+    "std_delta_pts": 0.0,
+    "expected_delta_sec": 0.016666666666666666,
+    "min_delta_sec": 0.016665999999986525,
+    "max_delta_sec": 0.016667000000012422,
+    "mean_delta_sec": 0.016666666601294372,
+    "std_delta_sec": 4.711529843589347e-07,
+    "jitter_count": 0,
+    "jitter_events_sample": [],
+    "dropped_frames_count": 0,
+    "out_of_order_count": 0,
+    "sample_frames": [
+      {
+        "n": 0,
+        "pts": 0,
+        "pts_time": 0.0,
+        "duration": 256
+      },
+      {
+        "n": 1,
+        "pts": 256,
+        "pts_time": 0.0166667,
+        "duration": 256
+      },
+      {
+        "n": 1000,
+        "pts": 256000,
+        "pts_time": 16.666667,
+        "duration": 256
+      },
+      {
+        "n": 2500,
+        "pts": 640000,
+        "pts_time": 41.666667,
+        "duration": 256
+      },
+      {
+        "n": 5000,
+        "pts": 1280000,
+        "pts_time": 83.333333,
+        "duration": 256
+      },
+      {
+        "n": 5099,
+        "pts": 1305344,
+        "pts_time": 84.983333,
+        "duration": 256
+      }
+    ]
+  },
+  "transition_boundary_stress_test": {
+    "status": "PASS",
+    "total_black_drops": 0,
+    "total_rollbacks": 0,
+    "windows": [
+      {
+        "window_name": "Act 1 -> Act 2 (AMS to Bucarest)",
+        "t_range_sec": [
+          20.4,
+          23.6
+        ],
+        "frame_range": [
+          1224,
+          1416
+        ],
+        "frame_count_evaluated": 193,
+        "luminance_curve": {
+          "min": 37.117919921875,
+          "max": 61.4583740234375,
+          "start": 61.244300842285156,
+          "mid": 61.40571212768555,
+          "end": 38.90127944946289,
+          "mean": 55.41144735701961,
+          "std": 9.103910944125976
+        },
+        "pixel_differences": {
+          "mad_min": 0.005590277723968029,
+          "mad_max": 4.510329723358154,
+          "mad_mean": 0.4027476958144689,
+          "rmsd_min": 0.07883702963590622,
+          "rmsd_max": 9.495476722717285,
+          "rmsd_mean": 1.598695848020725
+        },
+        "black_frame_drops": [],
+        "black_drop_count": 0,
+        "rollbacks": [],
+        "rollback_count": 0,
+        "sample_frames_eval": [
+          {
+            "frame_idx": 1224,
+            "time_sec": 20.4,
+            "mean_luminance": 61.244300842285156,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 43.79377365112305
+          },
+          {
+            "frame_idx": 1272,
+            "time_sec": 21.2,
+            "mean_luminance": 61.27279281616211,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 44.043914794921875,
+            "mad_from_prev": 0.18594329059123993,
+            "rmsd_from_prev": 1.8132884502410889
+          },
+          {
+            "frame_idx": 1320,
+            "time_sec": 22.0,
+            "mean_luminance": 61.40571212768555,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 43.77022171020508,
+            "mad_from_prev": 1.0462210178375244,
+            "rmsd_from_prev": 6.329666614532471
+          },
+          {
+            "frame_idx": 1368,
+            "time_sec": 22.8,
+            "mean_luminance": 48.43723678588867,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 32.67354202270508,
+            "mad_from_prev": 1.93983793258667,
+            "rmsd_from_prev": 4.089168071746826
+          },
+          {
+            "frame_idx": 1416,
+            "time_sec": 23.6,
+            "mean_luminance": 38.90127944946289,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 32.80858612060547,
+            "mad_from_prev": 0.6550115942955017,
+            "rmsd_from_prev": 3.23929500579834
+          }
+        ]
+      },
+      {
+        "window_name": "Act 2 -> Act 3 (Bucarest to CABIS)",
+        "t_range_sec": [
+          42.4,
+          45.6
+        ],
+        "frame_range": [
+          2544,
+          2736
+        ],
+        "frame_count_evaluated": 193,
+        "luminance_curve": {
+          "min": 38.153873443603516,
+          "max": 43.0559196472168,
+          "start": 42.46750259399414,
+          "mid": 42.4988899230957,
+          "end": 40.46100997924805,
+          "mean": 41.57825964102473,
+          "std": 1.475969647671409
+        },
+        "pixel_differences": {
+          "mad_min": 0.005515046417713165,
+          "mad_max": 3.8809547424316406,
+          "mad_mean": 0.41432309647158644,
+          "rmsd_min": 0.07813657075166702,
+          "rmsd_max": 8.842775344848633,
+          "rmsd_mean": 1.684349137862834
+        },
+        "black_frame_drops": [],
+        "black_drop_count": 0,
+        "rollbacks": [],
+        "rollback_count": 0,
+        "sample_frames_eval": [
+          {
+            "frame_idx": 2544,
+            "time_sec": 42.4,
+            "mean_luminance": 42.46750259399414,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 36.34658432006836
+          },
+          {
+            "frame_idx": 2592,
+            "time_sec": 43.2,
+            "mean_luminance": 42.496883392333984,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 36.38088607788086,
+            "mad_from_prev": 0.9349536895751953,
+            "rmsd_from_prev": 6.051859378814697
+          },
+          {
+            "frame_idx": 2640,
+            "time_sec": 44.0,
+            "mean_luminance": 42.4988899230957,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 36.374080657958984,
+            "mad_from_prev": 0.274849534034729,
+            "rmsd_from_prev": 1.9469438791275024
+          },
+          {
+            "frame_idx": 2688,
+            "time_sec": 44.8,
+            "mean_luminance": 38.822052001953125,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 29.46599578857422,
+            "mad_from_prev": 2.2267417907714844,
+            "rmsd_from_prev": 4.781896591186523
+          },
+          {
+            "frame_idx": 2736,
+            "time_sec": 45.6,
+            "mean_luminance": 40.46100997924805,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 32.53472137451172,
+            "mad_from_prev": 0.15173611044883728,
+            "rmsd_from_prev": 0.4952085316181183
+          }
+        ]
+      },
+      {
+        "window_name": "Act 3 -> Act 4 (CABIS to Rayonnement)",
+        "t_range_sec": [
+          65.4,
+          68.6
+        ],
+        "frame_range": [
+          3924,
+          4116
+        ],
+        "frame_count_evaluated": 193,
+        "luminance_curve": {
+          "min": 24.565065383911133,
+          "max": 50.72719192504883,
+          "start": 50.62083435058594,
+          "mid": 50.59718322753906,
+          "end": 24.565065383911133,
+          "mean": 46.027493432395815,
+          "std": 8.329167594111864
+        },
+        "pixel_differences": {
+          "mad_min": 0.007146990858018398,
+          "mad_max": 3.5851852893829346,
+          "mad_mean": 0.3339429329450165,
+          "rmsd_min": 0.08576318621635437,
+          "rmsd_max": 5.384654998779297,
+          "rmsd_mean": 1.1888135102732729
+        },
+        "black_frame_drops": [],
+        "black_drop_count": 0,
+        "rollbacks": [],
+        "rollback_count": 0,
+        "sample_frames_eval": [
+          {
+            "frame_idx": 3924,
+            "time_sec": 65.4,
+            "mean_luminance": 50.62083435058594,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 45.856746673583984
+          },
+          {
+            "frame_idx": 3972,
+            "time_sec": 66.2,
+            "mean_luminance": 50.69348907470703,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 45.844905853271484,
+            "mad_from_prev": 0.039797455072402954,
+            "rmsd_from_prev": 0.20731696486473083
+          },
+          {
+            "frame_idx": 4020,
+            "time_sec": 67.0,
+            "mean_luminance": 50.59718322753906,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 45.809383392333984,
+            "mad_from_prev": 0.325509250164032,
+            "rmsd_from_prev": 2.1929917335510254
+          },
+          {
+            "frame_idx": 4068,
+            "time_sec": 67.8,
+            "mean_luminance": 46.01706314086914,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 40.69098663330078,
+            "mad_from_prev": 0.8233565092086792,
+            "rmsd_from_prev": 3.047579765319824
+          },
+          {
+            "frame_idx": 4116,
+            "time_sec": 68.6,
+            "mean_luminance": 24.565065383911133,
+            "min_luminance": 0.0,
+            "max_luminance": 255.0,
+            "std_luminance": 28.851198196411133,
+            "mad_from_prev": 0.25127315521240234,
+            "rmsd_from_prev": 2.8501765727996826
+          }
+        ]
+      }
+    ]
+  }
+}

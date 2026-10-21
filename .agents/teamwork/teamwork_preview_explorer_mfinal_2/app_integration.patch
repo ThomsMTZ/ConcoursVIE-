@@ -1,0 +1,20 @@
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -4,6 +4,7 @@
+ import { ThreeScene } from './components/Canvas/ThreeScene';
+ import { HeaderNav } from './components/Navigation/HeaderNav';
+ import { HudOverlay } from './components/HUD/HudOverlay';
++import { BiometricScanCard } from './components/HUD/BiometricScanCard';
+ import { CinemaSubtitles } from './components/Subtitles/CinemaSubtitles';
+ import { BottomDock } from './components/Controls/BottomDock';
+ 
+@@ -58,6 +59,9 @@
+       {/* 4. Sleek Aerospace HUD Information Overlay */}
+       <HudOverlay activeChapter={activeChapter} />
+ 
++      {/* 5. Right-side Holographic Biometric Scan Card (Act 3: CABIS) */}
++      <BiometricScanCard currentTime={currentTime} />
++
+       {/* 5. Bottom Center Dynamic Cinematic Subtitles */}
+       <CinemaSubtitles text={activeChapter.subtitles} />
+ 

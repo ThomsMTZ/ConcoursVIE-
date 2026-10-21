@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import { TOTAL_DURATION, STORY_CHAPTERS } from '../data/storyData';
 import { Chapter } from '../types/story';
 
@@ -31,29 +32,59 @@ export function useTimeline(): UseTimelineReturn {
   const lastTickRef = useRef<number>(performance.now());
   const rafIdRef = useRef<number | null>(null);
   const internalTimeRef = useRef<number>(0);
-  const lastStateUpdateRef = useRef<number>(0);
+  const lastAudioSyncRef = useRef<number>(0);
 
-  // Expose global seek for automated video rendering
+  // =========================================================================
+  // 1. DETERMINISTIC SEEK & RENDER API EXPOSURE FOR PLAYWRIGHT
+  // =========================================================================
   useEffect(() => {
+    // Synchronous deterministic seek function callable by automation scripts
     (window as any).seekTimeline = (t: number) => {
-      internalTimeRef.current = Math.max(0, Math.min(TOTAL_DURATION, t));
-      setCurrentTime(internalTimeRef.current);
-      if (audioRef.current) {
-        audioRef.current.currentTime = internalTimeRef.current;
+      const clamped = Math.max(0, Math.min(TOTAL_DURATION, t));
+      internalTimeRef.current = clamped;
+
+      // Force synchronous React state flush and DOM paint
+      flushSync(() => {
+        setCurrentTime(clamped);
+      });
+
+      if (audioRef.current && Math.abs(audioRef.current.currentTime - clamped) > 0.05) {
+        audioRef.current.currentTime = clamped;
       }
-      if ((window as any).renderSceneAt) {
-        (window as any).renderSceneAt(internalTimeRef.current);
+
+      if (typeof (window as any).renderSceneAt === 'function') {
+        (window as any).renderSceneAt(clamped);
+      }
+    };
+
+    (window as any).getTimelineCurrentTime = () => internalTimeRef.current;
+    (window as any).TOTAL_DURATION = TOTAL_DURATION;
+
+    (window as any).startTimelinePlayback = () => {
+      internalTimeRef.current = 0;
+      setCurrentTime(0);
+      setIsPlaying(true);
+      setAudioEnabled(true);
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(() => {});
       }
     };
 
     return () => {
       delete (window as any).seekTimeline;
+      delete (window as any).getTimelineCurrentTime;
+      delete (window as any).TOTAL_DURATION;
+      delete (window as any).startTimelinePlayback;
     };
   }, []);
 
-  // Initialize Audio element
+  // =========================================================================
+  // 2. AUDIO INITIALIZATION
+  // =========================================================================
   useEffect(() => {
-    const audio = new Audio('/assets/voiceover.mp3');
+    const audioUrl = `${import.meta.env.BASE_URL}assets/voiceover.mp3`;
+    const audio = new Audio(audioUrl);
     audio.preload = 'auto';
     audioRef.current = audio;
 
@@ -63,40 +94,50 @@ export function useTimeline(): UseTimelineReturn {
     };
   }, []);
 
-  // Check URL params for autoplay or recording mode
+  // =========================================================================
+  // 3. RECORDING & AUTOPLAY URL DETECTION
+  // =========================================================================
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('autoplay') === '1' || params.get('record') === '1') {
+    if (params.get('record') === '1') {
       setIsRecordingMode(true);
       document.body.classList.add('recording-mode');
+    }
+    if (params.get('autoplay') === '1') {
       setIsPlaying(true);
       setAudioEnabled(true);
     }
   }, []);
 
-  // Compute active chapter
+  // =========================================================================
+  // 4. ACTIVE CHAPTER CALCULATION
+  // =========================================================================
   const activeChapterIndex = Math.max(
     0,
     STORY_CHAPTERS.findIndex(c => currentTime >= c.tStart && currentTime < c.tEnd)
   );
   const activeChapter = STORY_CHAPTERS[activeChapterIndex !== -1 ? activeChapterIndex : STORY_CHAPTERS.length - 1];
 
-  // Control audio playback sync
+  // =========================================================================
+  // 5. AUDIO PLAYBACK TRIGGER (Decoupled from 60 FPS tick to prevent CPU choke)
+  // =========================================================================
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     if (isPlaying && audioEnabled) {
-      if (Math.abs(audio.currentTime - currentTime) > 0.35) {
-        audio.currentTime = currentTime;
+      if (Math.abs(audio.currentTime - internalTimeRef.current) > 0.25) {
+        audio.currentTime = internalTimeRef.current;
       }
       audio.play().catch(() => {});
     } else {
       audio.pause();
     }
-  }, [isPlaying, audioEnabled, currentTime]);
+  }, [isPlaying, audioEnabled]); // Note: currentTime REMOVED from dependencies
 
-  // Main high-precision animation loop with throttled React state dispatch
+  // =========================================================================
+  // 6. MAIN 60 FPS ANIMATION LOOP (Without 20 FPS throttle)
+  // =========================================================================
   useEffect(() => {
     if (!isPlaying) {
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
@@ -109,7 +150,9 @@ export function useTimeline(): UseTimelineReturn {
       const dt = (now - lastTickRef.current) / 1000;
       lastTickRef.current = now;
 
-      internalTimeRef.current += dt;
+      // Clamp delta-time to 100ms max to prevent massive jumps on system freeze
+      const clampedDt = Math.min(dt, 0.1);
+      internalTimeRef.current += clampedDt;
 
       if (internalTimeRef.current >= TOTAL_DURATION) {
         internalTimeRef.current = TOTAL_DURATION;
@@ -118,10 +161,18 @@ export function useTimeline(): UseTimelineReturn {
         return;
       }
 
-      // Throttle React state re-renders to ~20 FPS (every 50ms) to ensure smooth 60 FPS WebGL rendering without CPU choke
-      if (now - lastStateUpdateRef.current > 50) {
-        lastStateUpdateRef.current = now;
-        setCurrentTime(internalTimeRef.current);
+      // Smooth 60 FPS React state dispatch
+      setCurrentTime(internalTimeRef.current);
+
+      // Low-frequency audio drift check (every 500ms)
+      if (now - lastAudioSyncRef.current > 500) {
+        lastAudioSyncRef.current = now;
+        const audio = audioRef.current;
+        if (audio && audioEnabled && !audio.paused) {
+          if (Math.abs(audio.currentTime - internalTimeRef.current) > 0.35) {
+            audio.currentTime = internalTimeRef.current;
+          }
+        }
       }
 
       rafIdRef.current = requestAnimationFrame(loop);
@@ -132,8 +183,11 @@ export function useTimeline(): UseTimelineReturn {
     return () => {
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
-  }, [isPlaying]);
+  }, [isPlaying, audioEnabled]);
 
+  // =========================================================================
+  // 7. USER PLAYBACK CONTROLS
+  // =========================================================================
   const togglePlay = useCallback(() => {
     setIsPlaying(prev => {
       if (!prev && internalTimeRef.current >= TOTAL_DURATION) {

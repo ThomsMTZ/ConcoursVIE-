@@ -19,7 +19,7 @@ export const CinemaSubtitles: React.FC<CinemaSubtitlesProps> = ({ text }) => {
       'biométrique',
       'biométriques',
       'excellence',
-      'savoir-faire français',
+      'savoir-faire',
       'mai 2025',
       'mars 2026',
       'V.I.E'
@@ -35,18 +35,22 @@ export const CinemaSubtitles: React.FC<CinemaSubtitlesProps> = ({ text }) => {
   };
 
   return (
-    <div className="fixed bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-30 w-[92vw] max-w-3xl pointer-events-none select-none transition-all duration-300">
-      <div className="bg-slate-950/85 border border-white/15 rounded-xl px-5 py-3 md:px-6 md:py-3.5 backdrop-blur-md shadow-[0_15px_35px_rgba(0,0,0,0.85)] text-center">
-        <div className="flex items-center justify-center gap-1.5 mb-1 opacity-70">
-          <Quote className="w-3 h-3 text-cyan-400" />
-          <span className="font-mono text-[9px] tracking-widest text-slate-400 uppercase">
-            RÉCIT & TÉMOIGNAGE V.I.E
-          </span>
+    <div className="fixed bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 z-30 w-[94vw] max-w-4xl pointer-events-none select-none transition-all duration-500 ease-out">
+      {/* Outer Machined Glass Shell (Double-Bezel) */}
+      <div className="p-1.5 rounded-[1.75rem] bg-white/[0.04] border border-white/10 ring-1 ring-white/5 backdrop-blur-3xl shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
+        {/* Inner Core Container */}
+        <div className="px-6 py-3.5 md:px-8 md:py-4 rounded-[calc(1.75rem-0.375rem)] bg-slate-950/90 border border-cyan-500/20 text-center">
+          <div className="flex items-center justify-center gap-1.5 mb-1.5 opacity-80">
+            <Quote className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="font-mono text-[9px] tracking-[0.25em] text-cyan-300 uppercase font-semibold">
+              RÉCIT & TÉMOIGNAGE DU CANDIDAT V.I.E
+            </span>
+          </div>
+          <p 
+            className="text-xs sm:text-sm md:text-[15px] text-slate-100 font-sans font-medium leading-relaxed drop-shadow"
+            dangerouslySetInnerHTML={formatSubtitles(text)}
+          />
         </div>
-        <p 
-          className="text-xs sm:text-sm md:text-base text-slate-100 font-sans font-medium leading-relaxed drop-shadow"
-          dangerouslySetInnerHTML={formatSubtitles(text)}
-        />
       </div>
     </div>
   );
