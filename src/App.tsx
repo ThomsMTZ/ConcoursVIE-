@@ -21,12 +21,14 @@ export const App: React.FC = () => {
     activeChapter,
     activeChapterIndex,
     audioEnabled,
+    isRecordingMode,
     togglePlay,
     restart,
     seekTo,
     jumpToChapter,
     toggleAudio,
-    startRecordingMode
+    startRecordingMode,
+    exitRecordingMode
   } = useTimeline();
 
   // View Mode: 'cinematic' | 'keynote' | 'footage' | 'cockpit'
@@ -92,7 +94,12 @@ export const App: React.FC = () => {
           DIRECTION 3: REAL VIDEO FOOTAGE (B-ROLL) DOCUMENTARY
           ========================================================================= */}
       {viewMode === 'footage' && (
-        <FootageDirector currentTime={currentTime} onJumpToChapter={jumpToChapter} />
+        <FootageDirector 
+          currentTime={currentTime} 
+          isPlaying={isPlaying}
+          onTogglePlay={togglePlay}
+          onJumpToChapter={jumpToChapter} 
+        />
       )}
 
       {/* =========================================================================
@@ -118,12 +125,14 @@ export const App: React.FC = () => {
         activeChapterIndex={activeChapterIndex}
         audioEnabled={audioEnabled}
         viewMode={viewMode}
+        isRecordingMode={isRecordingMode}
         onTogglePlay={togglePlay}
         onRestart={restart}
         onSeek={seekTo}
         onJumpToChapter={jumpToChapter}
         onToggleAudio={toggleAudio}
         onStartRecording={startRecordingMode}
+        onExitRecording={exitRecordingMode}
         onSelectViewMode={(mode) => setViewMode(mode)}
       />
     </div>

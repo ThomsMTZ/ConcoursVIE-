@@ -20,6 +20,7 @@ export interface UseTimelineReturn {
   restart: () => void;
   toggleAudio: () => void;
   startRecordingMode: () => void;
+  exitRecordingMode: () => void;
 }
 
 export function useTimeline(): UseTimelineReturn {
@@ -101,7 +102,7 @@ export function useTimeline(): UseTimelineReturn {
     const params = new URLSearchParams(window.location.search);
     if (params.get('record') === '1') {
       setIsRecordingMode(true);
-      document.body.classList.add('recording-mode');
+      document.body.classList.add('automated-record');
     }
     if (params.get('autoplay') === '1') {
       setIsPlaying(true);
@@ -243,6 +244,21 @@ export function useTimeline(): UseTimelineReturn {
     setAudioEnabled(true);
   }, [seekTo]);
 
+  const exitRecordingMode = useCallback(() => {
+    setIsRecordingMode(false);
+    document.body.classList.remove('recording-mode');
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isRecordingMode) {
+        exitRecordingMode();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isRecordingMode, exitRecordingMode]);
+
   return {
     currentTime,
     duration: TOTAL_DURATION,
@@ -259,6 +275,7 @@ export function useTimeline(): UseTimelineReturn {
     jumpToChapter,
     restart,
     toggleAudio,
-    startRecordingMode
+    startRecordingMode,
+    exitRecordingMode
   };
 }

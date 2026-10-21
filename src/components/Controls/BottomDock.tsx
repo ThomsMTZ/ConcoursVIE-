@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Play, 
   Pause, 
@@ -21,12 +21,14 @@ interface BottomDockProps {
   activeChapterIndex: number;
   audioEnabled: boolean;
   viewMode?: ViewMode;
+  isRecordingMode?: boolean;
   onTogglePlay: () => void;
   onRestart: () => void;
   onSeek: (time: number) => void;
   onJumpToChapter: (index: number) => void;
   onToggleAudio: () => void;
   onStartRecording: () => void;
+  onExitRecording?: () => void;
   onSelectViewMode?: (mode: ViewMode) => void;
 }
 
@@ -38,14 +40,37 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   activeChapterIndex,
   audioEnabled,
   viewMode = 'cinematic',
+  isRecordingMode = false,
   onTogglePlay,
   onRestart,
   onSeek,
   onJumpToChapter,
   onToggleAudio,
   onStartRecording,
+  onExitRecording,
   onSelectViewMode
 }) => {
+  const [isMouseIdle, setIsMouseIdle] = useState<boolean>(false);
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      setIsMouseIdle(false);
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+      if (isPlaying && isRecordingMode) {
+        idleTimerRef.current = setTimeout(() => {
+          setIsMouseIdle(true);
+        }, 2500);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    };
+  }, [isPlaying, isRecordingMode]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -59,16 +84,20 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   };
 
   return (
-    <footer className="bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/95 border-t border-white/10 px-4 md:px-8 py-3.5 backdrop-blur-xl transition-all duration-300">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6">
+    <footer className={`bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/95 border-t border-white/10 px-3 md:px-8 py-3 backdrop-blur-xl transition-all duration-500 ${
+      isRecordingMode && isMouseIdle && isPlaying 
+        ? 'opacity-0 translate-y-8 pointer-events-none' 
+        : 'opacity-100 translate-y-0 pointer-events-auto'
+    }`}>
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5 md:gap-4">
         
         {/* Main Controls */}
         <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
           {/* Play/Pause Button */}
           <button
             onClick={onTogglePlay}
-            className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs sm:text-sm px-4 py-2 rounded-lg transition-all duration-200 shadow-[0_0_15px_rgba(0,240,255,0.4)] active:scale-95"
-            title={isPlaying ? "Mettre en pause" : "Lancer la lecture"}
+            className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs sm:text-sm px-4 py-2 rounded-lg transition-all duration-200 shadow-[0_0_15px_rgba(0,240,255,0.4)] active:scale-95 cursor-pointer"
+            title={isPlaying ? "Mettre en pause (Espace)" : "Lancer la lecture (Espace)"}
           >
             {isPlaying ? (
               <>
@@ -86,8 +115,8 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           {/* Restart Button */}
           <button
             onClick={onRestart}
-            className="flex items-center gap-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 transition-colors"
-            title="Recommencer depuis le début"
+            className="flex items-center gap-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 transition-colors cursor-pointer"
+            title="Recommencer depuis le début (Touche R)"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">RESET</span>
@@ -96,12 +125,12 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           {/* Audio Toggle */}
           <button
             onClick={onToggleAudio}
-            className={`flex items-center gap-1.5 font-mono text-xs px-3 py-2 rounded-lg border transition-all ${
+            className={`flex items-center gap-1.5 font-mono text-xs px-3 py-2 rounded-lg border transition-all cursor-pointer ${
               audioEnabled 
                 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]' 
                 : 'bg-slate-800/80 border-white/10 text-slate-400 hover:text-slate-200'
             }`}
-            title="Activer / désactiver la voix-off"
+            title="Activer / désactiver la voix-off (Touche M)"
           >
             {audioEnabled ? (
               <>
@@ -117,16 +146,17 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           </button>
 
           {/* Chapter Selector Pills */}
-          <div className="hidden lg:flex items-center gap-1.5 ml-2 border-l border-white/10 pl-3">
+          <div className="flex items-center gap-1 sm:gap-1.5 ml-1 border-l border-white/10 pl-2 sm:pl-3">
             {STORY_CHAPTERS.map((ch, idx) => (
               <button
                 key={ch.id}
                 onClick={() => onJumpToChapter(idx)}
-                className={`text-[11px] font-mono px-2.5 py-1.5 rounded-md transition-all ${
+                className={`text-[11px] font-mono px-2 sm:px-2.5 py-1.5 rounded-md transition-all cursor-pointer ${
                   idx === activeChapterIndex
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold'
                     : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
                 }`}
+                title={`Aller à l'Acte 0${ch.id}`}
               >
                 Acte 0{ch.id}
               </button>
@@ -220,14 +250,24 @@ export const BottomDock: React.FC<BottomDockProps> = ({
             </>
           )}
 
-          <button
-            onClick={onStartRecording}
-            className="flex items-center gap-1.5 bg-gradient-to-r from-rose-950/80 to-purple-950/80 hover:from-rose-900 hover:to-purple-900 border border-rose-500/40 text-rose-200 text-xs font-mono font-semibold px-3 py-2 rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.2)]"
-            title="Lancer le mode cinématique plein écran sans interface"
-          >
-            <Video className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
-            <span className="hidden sm:inline">MODE ENREGISTREMENT</span>
-          </button>
+          {isRecordingMode ? (
+            <button
+              onClick={onExitRecording}
+              className="flex items-center gap-1.5 bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 border border-rose-400/50 text-xs font-mono font-semibold px-3 py-2 rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.3)] cursor-pointer"
+              title="Quitter le mode épuré (Touche Échap)"
+            >
+              <span>✕ QUITTER LE MODE ÉPURÉ (ÉCHAP)</span>
+            </button>
+          ) : (
+            <button
+              onClick={onStartRecording}
+              className="flex items-center gap-1.5 bg-gradient-to-r from-rose-950/80 to-purple-950/80 hover:from-rose-900 hover:to-purple-900 border border-rose-500/40 text-rose-200 text-xs font-mono font-semibold px-3 py-2 rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.2)] cursor-pointer"
+              title="Passer en vue épurée sans interface (auto-masquage)"
+            >
+              <Video className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
+              <span className="hidden sm:inline">MODE ÉPURÉ</span>
+            </button>
+          )}
         </div>
 
       </div>

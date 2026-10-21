@@ -66,8 +66,8 @@ body::after {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Recording Mode: hides bottom UI dock for clean MP4 capture */
-body.recording-mode .bottom-dock-container {
+/* Automated Headless Capture: hides bottom UI dock completely for MP4 render */
+body.automated-record .bottom-dock-container {
   display: none !important;
 }
 

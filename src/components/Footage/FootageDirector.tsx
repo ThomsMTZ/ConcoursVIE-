@@ -4,6 +4,8 @@ import { BiometricConsoleHUD } from '../HUD/BiometricConsoleHUD';
 
 interface FootageDirectorProps {
   currentTime: number;
+  isPlaying?: boolean;
+  onTogglePlay?: () => void;
   onJumpToChapter?: (index: number) => void;
 }
 
@@ -60,7 +62,12 @@ export const SHOTS: ShotDef[] = [
   { id: '4_2', src: `${import.meta.env.BASE_URL}assets/videos/act4_thomas_future.mp4`, tStart: 76.0, tEnd: 85.0, label: 'FUTURE LEADERSHIP // TRAJECTOIRE V.I.E', act: 3 },
 ];
 
-export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime, onJumpToChapter }) => {
+export const FootageDirector: React.FC<FootageDirectorProps> = ({ 
+  currentTime, 
+  isPlaying = true, 
+  onTogglePlay, 
+  onJumpToChapter 
+}) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // 1. Hook up video ready signal and playback trigger
@@ -71,7 +78,7 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime, o
     const params = new URLSearchParams(window.location.search);
     const shouldAutoplay = params.get('autoplay') === '1';
 
-    if (shouldAutoplay && video.paused) {
+    if (shouldAutoplay && video.paused && isPlaying) {
       video.play().catch(() => {});
     }
 
@@ -92,18 +99,42 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime, o
     };
   }, []);
 
-  // 2. Video timeline sync: only seek if the video is paused OR if a large jump occurred (user clicked an Act or scrubbed)
+  // 2. Play / Pause strict synchronization
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isPlaying) {
+      if (video.paused) {
+        if (Math.abs(video.currentTime - currentTime) > 0.15) {
+          video.currentTime = currentTime;
+        }
+        video.play().catch(() => {});
+      }
+    } else {
+      if (!video.paused) {
+        video.pause();
+        video.currentTime = currentTime;
+      }
+    }
+  }, [isPlaying]);
+
+  // 3. Video timeline sync: keep video accurately synchronized with audio timeline
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const diff = Math.abs(video.currentTime - currentTime);
-    if (video.paused && diff > 0.1) {
-      video.currentTime = currentTime;
-    } else if (!video.paused && diff > 1.5) {
-      video.currentTime = currentTime;
+    if (!isPlaying) {
+      if (diff > 0.04) {
+        video.currentTime = currentTime;
+      }
+    } else {
+      if (diff > 0.35) {
+        video.currentTime = currentTime;
+      }
     }
-  }, [currentTime]);
+  }, [currentTime, isPlaying]);
 
   // Determine active chapter [0, 1, 2, 3]
   let actIndex = 0;
@@ -120,7 +151,11 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime, o
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden bg-black select-none font-sans">
       {/* 1. MASTER UNIFIED BACKGROUND FOOTAGE (85.0s CONTINUOUS — ZERO BUFFERING / ZERO ROLLBACK) */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+      <div 
+        onClick={onTogglePlay}
+        className="absolute inset-0 w-full h-full z-0 cursor-pointer"
+        title={isPlaying ? "Cliquer sur l'écran pour mettre en pause" : "Cliquer pour reprendre la lecture"}
+      >
         <video
           ref={videoRef}
           src={`${import.meta.env.BASE_URL}assets/videos/master_footage_85s.mp4`}
@@ -129,21 +164,62 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime, o
           preload="auto"
           onCanPlay={(e) => {
             const params = new URLSearchParams(window.location.search);
-            if (params.get('autoplay') === '1' && e.currentTarget.paused) {
+            if (params.get('autoplay') === '1' && e.currentTarget.paused && isPlaying) {
               e.currentTarget.play().catch(() => {});
             }
           }}
-          className="w-full h-full object-cover scale-105"
+          className="w-full h-full object-cover scale-105 pointer-events-none"
         />
 
         {/* Filmic Vignette & Dynamic Color Grade */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/75 pointer-events-none z-10" />
       </div>
 
+      {/* Center Play Overlay when Paused */}
+      {!isPlaying && (
+        <div 
+          onClick={onTogglePlay}
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/45 backdrop-blur-[2px] cursor-pointer transition-all animate-in fade-in duration-200"
+          title="Reprendre la lecture"
+        >
+          <div className="w-20 h-20 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center shadow-[0_0_40px_rgba(0,240,255,0.6)] transform hover:scale-110 active:scale-95 transition-all">
+            <svg className="w-9 h-9 fill-current ml-1" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </div>
+          <div className="mt-4 px-5 py-2 rounded-full bg-slate-950/90 border border-cyan-400/40 text-cyan-300 font-mono text-xs tracking-widest shadow-xl">
+            VIDÉO EN PAUSE — CLIQUER OU ESPACE POUR REPRENDRE
+          </div>
+        </div>
+      )}
+
       {/* 2. TOP TELEMETRY NAVIGATION BAR */}
       <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 py-5 border-b border-white/10 bg-slate-950/50 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+          {onTogglePlay && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onTogglePlay(); }}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
+                isPlaying 
+                  ? 'bg-slate-800/90 hover:bg-slate-700 text-amber-300 border border-amber-400/30' 
+                  : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(0,240,255,0.5)]'
+              }`}
+              title={isPlaying ? "Mettre en pause (Espace)" : "Lancer la lecture (Espace)"}
+            >
+              {isPlaying ? (
+                <>
+                  <span className="w-2 h-2 rounded-sm bg-amber-400" />
+                  <span>PAUSE</span>
+                </>
+              ) : (
+                <>
+                  <span className="w-2 h-2 border-l-[6px] border-l-slate-950 border-y-[4px] border-y-transparent" />
+                  <span>LECTURE</span>
+                </>
+              )}
+            </button>
+          )}
           <div className="flex flex-col">
             <span className="font-mono text-[10px] tracking-[0.25em] text-slate-400 uppercase">Grand Prix V.I.E Roumanie 2026 // Documentary Feature</span>
             <span className="text-xs font-bold text-white tracking-wide">THOMAS MARTINEZ — FULL-STACK & SCRUM MASTER</span>
