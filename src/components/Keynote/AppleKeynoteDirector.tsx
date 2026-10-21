@@ -49,7 +49,7 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
               key={idx}
               type="button"
               onClick={() => onJumpToChapter?.(idx)}
-              className={`h-6 px-3 rounded-full text-xs font-sans transition-all duration-200 cursor-pointer ${
+              className={`h-6 px-3.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 actIndex === idx
                   ? 'bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-semibold shadow-md shadow-emerald-500/20'
                   : 'text-slate-400 hover:text-white hover:bg-white/[0.08]'

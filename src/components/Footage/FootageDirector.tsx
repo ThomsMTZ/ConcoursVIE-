@@ -210,7 +210,7 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
               key={idx}
               type="button"
               onClick={() => onJumpToChapter?.(idx)}
-              className={`h-6 px-3 rounded-full text-xs font-sans transition-all duration-200 cursor-pointer ${
+              className={`h-6 px-3.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 actIndex === idx
                   ? 'bg-emerald-400/25 text-emerald-300 font-semibold border border-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.25)]'
                   : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
