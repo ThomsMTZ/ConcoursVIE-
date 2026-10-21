@@ -203,8 +203,8 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
           </div>
         </div>
 
-        {/* Act Pills - Double-Bezel Segmented Control */}
-        <div className="h-8 p-1 rounded-full bg-slate-900/90 border border-white/10 backdrop-blur-xl flex items-center gap-1">
+        {/* Act Pills - Double-Bezel Segmented Control (Dead Center) */}
+        <div className="absolute left-1/2 -translate-x-1/2 h-8 p-1 rounded-full bg-slate-900/90 border border-white/10 backdrop-blur-xl flex items-center gap-1">
           {STORY_CHAPTERS.map((ch, idx) => (
             <button
               key={idx}
