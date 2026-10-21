@@ -85,14 +85,14 @@ export const App: React.FC = () => {
           DIRECTION 2: APPLE KEYNOTE & KINETIC MOTION DESIGN
           ========================================================================= */}
       {viewMode === 'keynote' && (
-        <AppleKeynoteDirector currentTime={currentTime} />
+        <AppleKeynoteDirector currentTime={currentTime} onJumpToChapter={jumpToChapter} />
       )}
 
       {/* =========================================================================
           DIRECTION 3: REAL VIDEO FOOTAGE (B-ROLL) DOCUMENTARY
           ========================================================================= */}
       {viewMode === 'footage' && (
-        <FootageDirector currentTime={currentTime} />
+        <FootageDirector currentTime={currentTime} onJumpToChapter={jumpToChapter} />
       )}
 
       {/* =========================================================================

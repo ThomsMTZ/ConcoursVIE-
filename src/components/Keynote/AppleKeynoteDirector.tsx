@@ -3,6 +3,7 @@ import { STORY_CHAPTERS } from '../../data/storyData';
 
 interface AppleKeynoteDirectorProps {
   currentTime: number;
+  onJumpToChapter?: (index: number) => void;
 }
 
 /**
@@ -15,7 +16,7 @@ interface AppleKeynoteDirectorProps {
  * - Giant animated metrics and counters (+35% velocity, 100,000+ flights, 100% Schengen).
  * - Machined brushed-titanium bento cards with refractive specular edges.
  */
-export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ currentTime }) => {
+export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ currentTime, onJumpToChapter }) => {
   // Determine current chapter index [0, 1, 2, 3]
   let actIndex = 0;
   if (currentTime >= 67.5) actIndex = 3;
@@ -44,16 +45,18 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
         {/* Acts Segmented Pill Indicator */}
         <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-900/90 border border-white/10 backdrop-blur-xl">
           {STORY_CHAPTERS.map((ch, idx) => (
-            <div
+            <button
               key={idx}
-              className={`px-3.5 py-1 rounded-full text-[11px] font-mono tracking-wider transition-all duration-500 ${
+              type="button"
+              onClick={() => onJumpToChapter?.(idx)}
+              className={`px-3.5 py-1 rounded-full text-[11px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
                 actIndex === idx
                   ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-bold shadow-lg shadow-emerald-500/20'
-                  : 'text-slate-500 hover:text-slate-300'
+                  : 'text-slate-400 hover:text-white hover:bg-white/10'
               }`}
             >
               ACTE 0{idx + 1}
-            </div>
+            </button>
           ))}
         </div>
 

@@ -4,6 +4,7 @@ import { BiometricConsoleHUD } from '../HUD/BiometricConsoleHUD';
 
 interface FootageDirectorProps {
   currentTime: number;
+  onJumpToChapter?: (index: number) => void;
 }
 
 export interface ShotDef {
@@ -59,7 +60,7 @@ export const SHOTS: ShotDef[] = [
   { id: '4_2', src: `${import.meta.env.BASE_URL}assets/videos/act4_thomas_future.mp4`, tStart: 76.0, tEnd: 85.0, label: 'FUTURE LEADERSHIP // TRAJECTOIRE V.I.E', act: 3 },
 ];
 
-export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime }) => {
+export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime, onJumpToChapter }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // 1. Hook up video ready signal and playback trigger
@@ -91,13 +92,15 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime })
     };
   }, []);
 
-  // 2. ONLY seek if video is paused (e.g. manual scrubber interaction while stopped)
+  // 2. Video timeline sync: only seek if the video is paused OR if a large jump occurred (user clicked an Act or scrubbed)
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // NEVER seek during linear playback! Seeking causes frame discard and rollback.
-    if (video.paused && Math.abs(video.currentTime - currentTime) > 0.1) {
+    const diff = Math.abs(video.currentTime - currentTime);
+    if (video.paused && diff > 0.1) {
+      video.currentTime = currentTime;
+    } else if (!video.paused && diff > 1.5) {
       video.currentTime = currentTime;
     }
   }, [currentTime]);
@@ -150,16 +153,18 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({ currentTime })
         {/* Act Pills */}
         <div className="flex items-center gap-2">
           {STORY_CHAPTERS.map((ch, idx) => (
-            <div
+            <button
               key={idx}
-              className={`px-3 py-1 rounded-full text-[10px] font-mono tracking-wider transition-all duration-300 ${
+              type="button"
+              onClick={() => onJumpToChapter?.(idx)}
+              className={`px-3 py-1 rounded-full text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
                 actIndex === idx
                   ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/40 font-bold shadow-[0_0_15px_rgba(52,211,153,0.3)]'
-                  : 'text-slate-500 border border-transparent'
+                  : 'text-slate-400 border border-white/5 hover:text-white hover:bg-white/10 hover:border-white/20'
               }`}
             >
               ACTE 0{idx + 1}
-            </div>
+            </button>
           ))}
         </div>
 
