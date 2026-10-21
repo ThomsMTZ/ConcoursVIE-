@@ -27,18 +27,18 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
   const actProgress = Math.max(0, Math.min(1, (currentTime - chapter.tStart) / (chapter.tEnd - chapter.tStart)));
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden bg-black text-white font-sans select-none flex flex-col justify-between p-8 pb-20 md:p-14 md:pb-24 z-10">
+    <div className="fixed inset-0 w-full h-full overflow-y-auto overflow-x-hidden bg-black text-white font-sans select-none flex flex-col justify-between px-4 sm:px-8 md:px-14 pt-4 pb-24 md:pb-28 z-10">
       {/* 1. AMBIENT GLOWS & MACHINED TITANIUM LIGHTING */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.07)_0%,transparent_60%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,240,255,0.06)_0%,transparent_50%)] pointer-events-none" />
 
       {/* 2. TOP APPLE-STYLE NAVIGATION & TIME STAMP */}
-      <header className="relative z-20 flex items-center justify-between w-full border-b border-white/10 pb-5">
-        <div className="flex items-center gap-4">
-          <div className="w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)] animate-pulse" />
+      <header className="sticky top-0 z-30 flex items-center justify-between w-full border-b border-white/10 pb-4 pt-1 bg-black/80 backdrop-blur-xl">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)] animate-pulse" />
           <div className="flex flex-col">
-            <span className="font-mono text-xs tracking-[0.25em] text-slate-400 uppercase">Grand Prix V.I.E Roumanie 2026</span>
-            <span className="text-sm font-semibold tracking-tight text-slate-200">Thomas MARTINEZ — Candidat Officiel</span>
+            <span className="font-mono text-[10px] sm:text-xs tracking-[0.25em] text-slate-400 uppercase">Grand Prix V.I.E Roumanie 2026</span>
+            <span className="text-xs sm:text-sm font-semibold tracking-tight text-slate-200">Thomas MARTINEZ — Candidat Officiel</span>
           </div>
         </div>
 
@@ -49,7 +49,7 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
               key={idx}
               type="button"
               onClick={() => onJumpToChapter?.(idx)}
-              className={`h-6 px-3.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              className={`h-6 px-3 sm:px-3.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 actIndex === idx
                   ? 'bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-semibold shadow-md shadow-emerald-500/20'
                   : 'text-slate-400 hover:text-white hover:bg-white/[0.08]'
@@ -67,10 +67,10 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
       </header>
 
       {/* 3. CENTERSTAGE: KINETIC TYPOGRAPHY & DYNAMIC METRIC REVEAL */}
-      <main className="relative z-20 my-auto flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full">
+      <main className="relative z-20 my-auto flex flex-col items-center justify-center text-center max-w-5xl mx-auto w-full py-4 sm:py-6">
         {/* Subtitle Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
-          <span className="font-mono text-xs font-medium tracking-[0.2em] uppercase text-emerald-400">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 mb-3 sm:mb-4 backdrop-blur-md">
+          <span className="font-mono text-[11px] sm:text-xs font-medium tracking-[0.2em] uppercase text-emerald-400">
             {actIndex === 0 && '01 // ALTITUDE DE CROISIÈRE — 30 000 FT'}
             {actIndex === 1 && '02 // IMMERSION & GOUVERNANCE AGILE'}
             {actIndex === 2 && '03 // PORTIQUES BIOMÉTRIQUES CABIS'}
@@ -78,8 +78,8 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
           </span>
         </div>
 
-        {/* GIANT STATEMENT HEADLINE (Apple Keynote Style) */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] max-w-5xl mb-8">
+        {/* GIANT STATEMENT HEADLINE (Apple Keynote Style - Fluid Responsive) */}
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] max-w-4xl mb-4 sm:mb-6">
           {actIndex === 0 && (
             <>
               Contrôler les trajectoires dans le ciel.{' '}
@@ -115,14 +115,14 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
         </h1>
 
         {/* CENTRAL APPLE EQUALIZER & SOUNDWAVE */}
-        <div className="flex items-center justify-center gap-1.5 h-12 my-6">
-          {Array.from({ length: 36 }).map((_, i) => {
+        <div className="flex items-center justify-center gap-1 sm:gap-1.5 h-8 my-2 sm:my-3">
+          {Array.from({ length: 32 }).map((_, i) => {
             const freq = Math.sin(currentTime * 4.5 + i * 0.35) * 0.5 + 0.5;
-            const h = 8 + freq * 36;
+            const h = 6 + freq * 26;
             return (
               <div
                 key={i}
-                className="w-1.5 rounded-full transition-all duration-75"
+                className="w-1 sm:w-1.5 rounded-full transition-all duration-75"
                 style={{
                   height: `${h}px`,
                   backgroundColor: actIndex === 1 ? '#fbbf24' : actIndex === 2 ? '#34d399' : '#38bdf8',
@@ -134,83 +134,83 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
         </div>
 
         {/* GIANT QUANTIFIED METRIC CALLOUTS (Animated with Spring Easing) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-4xl mt-2 sm:mt-4">
           {actIndex === 0 && (
             <>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono tracking-tight">30 000 FT</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Altitude de croisière</div>
-                <div className="text-xs text-slate-300 mt-2">Prise de hauteur & migration des flux critiques AMS.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono tracking-tight">30 000 FT</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Altitude de croisière</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Prise de hauteur & migration des flux critiques AMS.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-white font-mono tracking-tight">100 000+</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Vols surveillés / jour</div>
-                <div className="text-xs text-slate-300 mt-2">Architecture haute disponibilité & zéro tolérance à la panne.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-mono tracking-tight">100 000+</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Vols surveillés / jour</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Architecture haute disponibilité & zéro tolérance à la panne.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">DOUBLE RÔLE</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Full-Stack & Scrum Master</div>
-                <div className="text-xs text-slate-300 mt-2">Développement réactif et pilotage agile de l'équipe.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">DOUBLE RÔLE</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Full-Stack & Scrum Master</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Développement réactif et pilotage agile de l'équipe.</div>
               </div>
             </>
           )}
 
           {actIndex === 1 && (
             <>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-amber-400 font-mono tracking-tight">+35%</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Vélocité d'équipe</div>
-                <div className="text-xs text-slate-300 mt-2">Gouvernance Scrum réactive & suppression des goulets.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-400 font-mono tracking-tight">+35%</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Vélocité d'équipe</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Gouvernance Scrum réactive & suppression des goulets.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-white font-mono tracking-tight">12 INGÉNIEURS</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Équipe biculturelle</div>
-                <div className="text-xs text-slate-300 mt-2">Synergie quotidienne talentueuse et francophile à Bucarest.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-mono tracking-tight">12 INGÉNIEURS</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Équipe biculturelle</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Synergie quotidienne talentueuse et francophile à Bucarest.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">2 SEMAINES</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Cadence de sprint</div>
-                <div className="text-xs text-slate-300 mt-2">Itérations rapides & déploiement continu sans friction.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">2 SEMAINES</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Cadence de sprint</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Itérations rapides & déploiement continu sans friction.</div>
               </div>
             </>
           )}
 
           {actIndex === 2 && (
             <>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">100%</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Conformité Schengen</div>
-                <div className="text-xs text-slate-300 mt-2">Passage e-Gates automatisé & sécurisé aux frontières.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">100%</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Conformité Schengen</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Passage e-Gates automatisé & sécurisé aux frontières.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono tracking-tight">99.4%</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Précision Biométrique</div>
-                <div className="text-xs text-slate-300 mt-2">Reconnaissance faciale ICAO 9303 haute sécurité temps réel.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono tracking-tight">99.4%</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Précision Biométrique</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Reconnaissance faciale ICAO 9303 haute sécurité temps réel.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-white font-mono tracking-tight">END-TO-END</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Caméra à l'actionneur</div>
-                <div className="text-xs text-slate-300 mt-2">Intégration du logiciel avec les portiques physiques.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-mono tracking-tight">END-TO-END</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Caméra à l'actionneur</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Intégration du logiciel avec les portiques physiques.</div>
               </div>
             </>
           )}
 
           {actIndex === 3 && (
             <>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-amber-300 font-mono tracking-tight">14 HUBS</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Rayonnement Européen</div>
-                <div className="text-xs text-slate-300 mt-2">Aéroports internationaux connectés au savoir-faire franco-roumain.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-amber-300 font-mono tracking-tight">14 HUBS</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Rayonnement Européen</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Aéroports internationaux connectés au savoir-faire franco-roumain.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">LEADERSHIP</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Trajectoire Transformée</div>
-                <div className="text-xs text-slate-300 mt-2">Passage d'ingénieur logiciel à leader technique international.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight">LEADERSHIP</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Trajectoire Transformée</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">Passage d'ingénieur logiciel à leader technique international.</div>
               </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
-                <div className="text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono tracking-tight">2026</div>
-                <div className="text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Grand Prix V.I.E</div>
-                <div className="text-xs text-slate-300 mt-2">L'impact concret et durable de l'expérience roumaine.</div>
+              <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 backdrop-blur-xl text-left">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono tracking-tight">2026</div>
+                <div className="text-[10px] sm:text-xs font-mono tracking-wider text-slate-400 uppercase mt-1">Grand Prix V.I.E</div>
+                <div className="text-[11px] sm:text-xs text-slate-300 mt-1.5 leading-snug">L'impact concret et durable de l'expérience roumaine.</div>
               </div>
             </>
           )}
@@ -218,8 +218,8 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
       </main>
 
       {/* 4. FOOTER: OFFICIAL NARRATION SUBTITLES (Synchronized) */}
-      <footer className="relative z-20 w-full max-w-4xl mx-auto border-t border-white/10 pt-4 text-center">
-        <p className="text-sm md:text-base font-light text-slate-300 tracking-wide leading-relaxed">
+      <footer className="relative z-20 w-full max-w-4xl mx-auto border-t border-white/10 pt-4 pb-2 text-center mt-4">
+        <p className="text-xs sm:text-sm md:text-base font-light text-slate-300 tracking-wide leading-relaxed">
           « {chapter.subtitles} »
         </p>
       </footer>
