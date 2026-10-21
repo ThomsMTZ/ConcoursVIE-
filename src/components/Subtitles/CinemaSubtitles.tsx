@@ -35,7 +35,7 @@ export const CinemaSubtitles: React.FC<CinemaSubtitlesProps> = ({ text }) => {
   };
 
   return (
-    <div className="fixed bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 z-30 w-[94vw] max-w-4xl pointer-events-none select-none transition-all duration-500 ease-out">
+    <div className="fixed bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-30 w-[94vw] max-w-4xl pointer-events-none select-none transition-all duration-500 ease-out">
       {/* Outer Machined Glass Shell (Double-Bezel) */}
       <div className="p-1.5 rounded-[1.75rem] bg-white/[0.04] border border-white/10 ring-1 ring-white/5 backdrop-blur-3xl shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
         {/* Inner Core Container */}

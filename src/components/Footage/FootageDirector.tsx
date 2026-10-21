@@ -307,7 +307,7 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
       <BiometricConsoleHUD currentTime={currentTime} />
 
       {/* 5. FOOTER SUBTITLES */}
-      <footer className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-full max-w-3xl text-center px-6 pointer-events-none">
+      <footer className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-20 w-full max-w-3xl text-center px-6 pointer-events-none">
         <div className="px-6 py-3 rounded-2xl bg-slate-950/85 border border-white/15 backdrop-blur-xl shadow-2xl">
           <p className="text-sm md:text-base font-light text-slate-200 tracking-wide leading-relaxed">
             {chapter.subtitles}

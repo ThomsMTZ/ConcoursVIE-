@@ -27,7 +27,7 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
   const actProgress = Math.max(0, Math.min(1, (currentTime - chapter.tStart) / (chapter.tEnd - chapter.tStart)));
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden bg-black text-white font-sans select-none flex flex-col justify-between p-8 md:p-14 z-10">
+    <div className="fixed inset-0 w-full h-full overflow-hidden bg-black text-white font-sans select-none flex flex-col justify-between p-8 pb-20 md:p-14 md:pb-24 z-10">
       {/* 1. AMBIENT GLOWS & MACHINED TITANIUM LIGHTING */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.07)_0%,transparent_60%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,240,255,0.06)_0%,transparent_50%)] pointer-events-none" />
