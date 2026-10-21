@@ -39,8 +39,8 @@ export const CinemaSubtitles: React.FC<CinemaSubtitlesProps> = ({ text }) => {
       {/* Outer Machined Glass Shell (Double-Bezel) */}
       <div className="p-1.5 rounded-[1.75rem] bg-white/[0.04] border border-white/10 ring-1 ring-white/5 backdrop-blur-3xl shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
         {/* Inner Core Container */}
-        <div className="px-6 py-3.5 md:px-8 md:py-4 rounded-[calc(1.75rem-0.375rem)] bg-slate-950/90 border border-cyan-500/20 text-center">
-          <div className="flex items-center justify-center gap-1.5 mb-1.5 opacity-80">
+        <div className="px-6 py-3 md:px-8 md:py-4 rounded-[calc(1.75rem-0.375rem)] bg-slate-950/90 border border-cyan-500/20 text-center">
+          <div className="flex items-center justify-center gap-1.5 mb-1 opacity-80">
             <Quote className="w-3.5 h-3.5 text-cyan-400" />
             <span className="font-mono text-[9px] tracking-[0.25em] text-cyan-300 uppercase font-semibold">
               RÉCIT & TÉMOIGNAGE DU CANDIDAT V.I.E

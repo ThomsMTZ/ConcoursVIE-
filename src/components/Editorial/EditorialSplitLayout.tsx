@@ -44,7 +44,7 @@ export const EditorialSplitLayout: React.FC<EditorialSplitLayoutProps> = ({
 
         {/* Top-Right Telemetry Watermark */}
         <div className="absolute top-6 right-6 z-20 pointer-events-none select-none">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/80 border border-white/10 backdrop-blur-xl font-mono text-[9px] tracking-widest text-slate-300 uppercase">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/80 border border-white/10 backdrop-blur-xl font-mono text-[9px] tracking-widest text-slate-300 uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
             <span>CINEMATIC 4K // WEBGL TELEMETRY</span>
           </div>

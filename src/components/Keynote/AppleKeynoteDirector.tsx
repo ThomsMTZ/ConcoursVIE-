@@ -42,20 +42,20 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
           </div>
         </div>
 
-        {/* Acts Segmented Pill Indicator */}
-        <div className="flex items-center gap-1.5 p-1 rounded-full bg-slate-900/90 border border-white/10 backdrop-blur-xl">
+        {/* Acts Segmented Pill Indicator - Double-Bezel Architecture */}
+        <div className="h-8 p-1 rounded-full bg-slate-900/90 border border-white/10 backdrop-blur-xl flex items-center gap-1">
           {STORY_CHAPTERS.map((ch, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => onJumpToChapter?.(idx)}
-              className={`px-3.5 py-1 rounded-full text-[11px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
+              className={`h-6 px-3 rounded-full text-xs font-sans transition-all duration-200 cursor-pointer ${
                 actIndex === idx
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-bold shadow-lg shadow-emerald-500/20'
-                  : 'text-slate-400 hover:text-white hover:bg-white/10'
+                  ? 'bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-semibold shadow-md shadow-emerald-500/20'
+                  : 'text-slate-400 hover:text-white hover:bg-white/[0.08]'
               }`}
             >
-              ACTE 0{idx + 1}
+              Acte 0{idx + 1}
             </button>
           ))}
         </div>
@@ -69,7 +69,7 @@ export const AppleKeynoteDirector: React.FC<AppleKeynoteDirectorProps> = ({ curr
       {/* 3. CENTERSTAGE: KINETIC TYPOGRAPHY & DYNAMIC METRIC REVEAL */}
       <main className="relative z-20 my-auto flex flex-col items-center justify-center text-center max-w-6xl mx-auto w-full">
         {/* Subtitle Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
+        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
           <span className="font-mono text-xs font-medium tracking-[0.2em] uppercase text-emerald-400">
             {actIndex === 0 && '01 // ALTITUDE DE CROISIÈRE — 30 000 FT'}
             {actIndex === 1 && '02 // IMMERSION & GOUVERNANCE AGILE'}

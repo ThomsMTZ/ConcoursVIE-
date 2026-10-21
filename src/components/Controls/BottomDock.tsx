@@ -77,7 +77,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   };
 
   return (
-    <footer className="bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/90 border-t border-white/10 px-4 md:px-6 py-2.5 backdrop-blur-2xl">
+    <footer className="bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/90 border-t border-white/10 px-4 md:px-6 py-3 backdrop-blur-2xl">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 lg:gap-5 flex-wrap xl:flex-nowrap">
         
         {/* GROUP 1: Primary Playback & Act Switcher */}
@@ -86,7 +86,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           <button
             type="button"
             onClick={onTogglePlay}
-            className="h-8 px-3.5 rounded-lg flex items-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-sans font-semibold text-xs transition-all shadow-[0_0_16px_rgba(0,240,255,0.35)] active:scale-95 cursor-pointer"
+            className="h-9 px-4 rounded-xl flex items-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-sans font-semibold text-xs transition-all shadow-[0_0_16px_rgba(0,240,255,0.35)] active:scale-95 cursor-pointer"
             title={isPlaying ? "Mettre en pause (Espace)" : "Lancer la lecture (Espace)"}
           >
             {isPlaying ? (
@@ -106,7 +106,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           <button
             type="button"
             onClick={onRestart}
-            className="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white font-sans text-xs border border-white/10 transition-all active:scale-95 cursor-pointer"
+            className="h-9 px-3 rounded-xl flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white font-sans text-xs border border-white/10 transition-all active:scale-95 cursor-pointer"
             title="Recommencer depuis le début (Touche R)"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -117,7 +117,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           <button
             type="button"
             onClick={onToggleAudio}
-            className={`h-8 px-2.5 rounded-lg flex items-center gap-1.5 font-sans text-xs border transition-all active:scale-95 cursor-pointer ${
+            className={`h-9 px-3 rounded-xl flex items-center gap-1.5 font-sans text-xs border transition-all active:scale-95 cursor-pointer ${
               audioEnabled 
                 ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]' 
                 : 'bg-white/[0.06] hover:bg-white/[0.12] border-white/10 text-slate-400 hover:text-white'
@@ -138,10 +138,10 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           </button>
 
           {/* Vertical Divider */}
-          <div className="h-5 w-px bg-white/10 mx-0.5 hidden sm:block" />
+          <div className="h-6 w-px bg-white/10 mx-1 hidden sm:block" />
 
-          {/* Unified Actes Segmented Control */}
-          <div className="h-8 p-0.5 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-0.5">
+          {/* Unified Actes Segmented Control (Double-Bezel Track) */}
+          <div className="h-9 p-1 rounded-xl bg-white/[0.04] border border-white/10 flex items-center gap-1">
             {STORY_CHAPTERS.map((ch, idx) => {
               const isActive = idx === activeChapterIndex;
               return (
@@ -149,7 +149,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                   key={ch.id}
                   type="button"
                   onClick={() => onJumpToChapter(idx)}
-                  className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                  className={`h-7 px-3 rounded-lg font-sans text-xs transition-all cursor-pointer ${
                     isActive
                       ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -200,13 +200,13 @@ export const BottomDock: React.FC<BottomDockProps> = ({
 
         {/* GROUP 3: View Modes & Action Tools */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Unified View Mode Segmented Control */}
+          {/* Unified View Mode Segmented Control (Double-Bezel Track) */}
           {onSelectViewMode && (
-            <div className="h-8 p-0.5 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-0.5">
+            <div className="h-9 p-1 rounded-xl bg-white/[0.04] border border-white/10 flex items-center gap-1">
               <button
                 type="button"
                 onClick={() => onSelectViewMode('footage')}
-                className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                className={`h-7 px-3 rounded-lg font-sans text-xs transition-all cursor-pointer ${
                   viewMode === 'footage'
                     ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -218,7 +218,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectViewMode('cinematic')}
-                className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                className={`h-7 px-3 rounded-lg font-sans text-xs transition-all cursor-pointer ${
                   viewMode === 'cinematic'
                     ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -230,7 +230,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectViewMode('keynote')}
-                className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                className={`h-7 px-3 rounded-lg font-sans text-xs transition-all cursor-pointer ${
                   viewMode === 'keynote'
                     ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -242,7 +242,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectViewMode('cockpit')}
-                className={`h-7 px-2 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                className={`h-7 px-3 rounded-lg font-sans text-xs transition-all cursor-pointer ${
                   viewMode === 'cockpit'
                     ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -258,7 +258,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           <button
             type="button"
             onClick={toggleFullscreen}
-            className="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white font-sans text-xs border border-white/10 transition-all active:scale-95 cursor-pointer"
+            className="h-9 px-3 rounded-xl flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white font-sans text-xs border border-white/10 transition-all active:scale-95 cursor-pointer"
             title={isFullscreen ? "Quitter le plein écran (Échap ou F11)" : "Plein écran (F11)"}
           >
             {isFullscreen ? (
@@ -278,7 +278,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           <a
             href={`${import.meta.env.BASE_URL}MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4`}
             download="MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4"
-            className="h-8 px-3 rounded-lg flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-sans font-semibold text-xs shadow-[0_0_14px_rgba(16,185,129,0.35)] transition-all active:scale-95 cursor-pointer"
+            className="h-9 px-4 rounded-xl flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-sans font-semibold text-xs shadow-[0_0_14px_rgba(16,185,129,0.35)] transition-all active:scale-95 cursor-pointer"
             title="Télécharger la vidéo officielle du concours (1080p 60fps MP4, 85s)"
           >
             <Download className="w-3.5 h-3.5" />

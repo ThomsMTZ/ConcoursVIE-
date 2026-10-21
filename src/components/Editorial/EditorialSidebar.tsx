@@ -34,7 +34,7 @@ export const EditorialSidebar: React.FC<EditorialSidebarProps> = ({
               {CANDIDATE_INFO.contest}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-slate-400 font-mono text-[9px] tracking-widest uppercase">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-400 font-mono text-[9px] tracking-widest uppercase">
             <Radio className="w-2.5 h-2.5 text-cyan-400 animate-pulse" />
             <span>LIVE_STREAM // 60FPS</span>
           </div>
@@ -101,7 +101,7 @@ export const EditorialSidebar: React.FC<EditorialSidebarProps> = ({
         {/* 3. ACTIVE CHAPTER TITLE & SUMMARY (Double-Bezel Design) */}
         <div className="relative p-2 rounded-[1.75rem] bg-white/[0.03] border border-white/10 ring-1 ring-white/5 backdrop-blur-2xl">
           <div className="p-5 rounded-[calc(1.75rem-0.5rem)] bg-slate-950/80 border border-cyan-500/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 font-mono text-[9px] tracking-widest text-cyan-300 uppercase mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 font-mono text-[9px] tracking-widest text-cyan-300 uppercase mb-2">
               <Zap className="w-2.5 h-2.5 text-cyan-400" />
               <span>{activeChapter.tag}</span>
             </div>
@@ -119,7 +119,7 @@ export const EditorialSidebar: React.FC<EditorialSidebarProps> = ({
           {activeChapter.metrics.map((metric, idx) => (
             <div
               key={idx}
-              className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-700/60 shadow-inner"
+              className="p-3 rounded-xl bg-slate-900/60 border border-slate-700/60 shadow-inner"
             >
               <div className="flex items-center gap-1.5 text-slate-400 mb-1">
                 {idx === 0 ? (
@@ -142,7 +142,7 @@ export const EditorialSidebar: React.FC<EditorialSidebarProps> = ({
         </div>
 
         {/* 5. DYNAMIC AUDIO WAVEFORM VISUALIZER */}
-        <div className="p-3.5 rounded-xl bg-slate-900/40 border border-white/5">
+        <div className="p-3 rounded-xl bg-slate-900/40 border border-white/5">
           <div className="flex items-center justify-between mb-2">
             <span className="font-mono text-[9px] tracking-wider text-slate-400 uppercase flex items-center gap-1">
               <Activity className="w-3 h-3 text-cyan-400 animate-pulse" />

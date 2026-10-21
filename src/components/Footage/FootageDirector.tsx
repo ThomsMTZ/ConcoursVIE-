@@ -203,31 +203,31 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
           </div>
         </div>
 
-        {/* Act Pills */}
-        <div className="flex items-center gap-2">
+        {/* Act Pills - Double-Bezel Segmented Control */}
+        <div className="h-8 p-1 rounded-full bg-slate-900/90 border border-white/10 backdrop-blur-xl flex items-center gap-1">
           {STORY_CHAPTERS.map((ch, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => onJumpToChapter?.(idx)}
-              className={`px-3 py-1 rounded-full text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
+              className={`h-6 px-3 rounded-full text-xs font-sans transition-all duration-200 cursor-pointer ${
                 actIndex === idx
-                  ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/40 font-bold shadow-[0_0_15px_rgba(52,211,153,0.3)]'
-                  : 'text-slate-400 border border-white/5 hover:text-white hover:bg-white/10 hover:border-white/20'
+                  ? 'bg-emerald-400/25 text-emerald-300 font-semibold border border-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.25)]'
+                  : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
               }`}
             >
-              ACTE 0{idx + 1}
+              Acte 0{idx + 1}
             </button>
           ))}
         </div>
 
         {/* Shot Indicator & Spec Badge */}
         <div className="flex items-center gap-2">
-          <div className="px-3 py-1 rounded-full bg-slate-900/80 border border-white/10 font-mono text-[10px] text-cyan-300 flex items-center gap-2">
+          <div className="h-8 px-3 rounded-full bg-slate-900/80 border border-white/10 font-mono text-[10px] text-cyan-300 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span>PLAN {String(currentShotIndex + 1).padStart(2, '0')}/11 : {currentShot.label.split(' // ')[0]}</span>
           </div>
-          <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-[10px] text-slate-300">
+          <div className="h-8 px-3 rounded-full bg-white/5 border border-white/10 font-mono text-[10px] text-slate-300 flex items-center">
             <span>1080P60 // 0-LOOP</span>
           </div>
         </div>
@@ -235,7 +235,7 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
 
       {/* 3. DYNAMIC HUD TELEMETRY OVERLAY (LEFT) */}
       <div className="absolute left-8 top-28 z-20 max-w-md pointer-events-none">
-        <div className="px-4 py-1.5 rounded-full bg-black/60 border border-white/10 backdrop-blur-md inline-flex items-center gap-2 mb-3">
+        <div className="px-4 py-1 rounded-full bg-black/60 border border-white/10 backdrop-blur-md inline-flex items-center gap-2 mb-3">
           <span className="font-mono text-[10px] tracking-widest text-emerald-400 uppercase">
             {actIndex === 0 && 'AERONAUTICAL SURVEILLANCE // AMS'}
             {actIndex === 1 && 'BUCHAREST AGILE SPRINT // ROUMANIE'}
@@ -308,7 +308,7 @@ export const FootageDirector: React.FC<FootageDirectorProps> = ({
 
       {/* 5. FOOTER SUBTITLES */}
       <footer className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-full max-w-3xl text-center px-6 pointer-events-none">
-        <div className="px-6 py-3.5 rounded-2xl bg-slate-950/85 border border-white/15 backdrop-blur-xl shadow-2xl">
+        <div className="px-6 py-3 rounded-2xl bg-slate-950/85 border border-white/15 backdrop-blur-xl shadow-2xl">
           <p className="text-sm md:text-base font-light text-slate-200 tracking-wide leading-relaxed">
             {chapter.subtitles}
           </p>
