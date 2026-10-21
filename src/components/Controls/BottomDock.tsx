@@ -36,7 +36,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   isPlaying,
   activeChapterIndex,
   audioEnabled,
-  viewMode = 'cinematic',
+  viewMode = 'footage',
   onTogglePlay,
   onRestart,
   onSeek,
@@ -77,87 +77,98 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   };
 
   return (
-    <footer className="bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/95 border-t border-white/10 px-3 md:px-8 py-3 backdrop-blur-xl transition-all duration-300">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5 md:gap-4">
+    <footer className="bottom-dock-container fixed bottom-0 left-0 w-full z-40 select-none bg-slate-950/90 border-t border-white/10 px-4 md:px-6 py-2.5 backdrop-blur-2xl">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 lg:gap-5 flex-wrap xl:flex-nowrap">
         
-        {/* Main Controls */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
+        {/* GROUP 1: Primary Playback & Act Switcher */}
+        <div className="flex items-center gap-2 flex-shrink-0">
           {/* Play/Pause Button */}
           <button
+            type="button"
             onClick={onTogglePlay}
-            className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs sm:text-sm px-4 py-2 rounded-lg transition-all duration-200 shadow-[0_0_15px_rgba(0,240,255,0.4)] active:scale-95 cursor-pointer"
+            className="h-8 px-3.5 rounded-lg flex items-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-sans font-semibold text-xs transition-all shadow-[0_0_16px_rgba(0,240,255,0.35)] active:scale-95 cursor-pointer"
             title={isPlaying ? "Mettre en pause (Espace)" : "Lancer la lecture (Espace)"}
           >
             {isPlaying ? (
               <>
-                <Pause className="w-4 h-4 fill-current" />
-                <span>PAUSE</span>
+                <Pause className="w-3.5 h-3.5 fill-current" />
+                <span>Pause</span>
               </>
             ) : (
               <>
-                <Play className="w-4 h-4 fill-current" />
-                <span>LECTURE</span>
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>Lecture</span>
               </>
             )}
           </button>
 
-          {/* Restart Button */}
+          {/* Reset Button */}
           <button
+            type="button"
             onClick={onRestart}
-            className="flex items-center gap-1.5 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white font-mono text-xs px-3 py-2 rounded-lg border border-white/10 transition-colors cursor-pointer"
+            className="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white font-sans text-xs border border-white/10 transition-all active:scale-95 cursor-pointer"
             title="Recommencer depuis le début (Touche R)"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">RESET</span>
+            <span className="hidden sm:inline">Reset</span>
           </button>
 
           {/* Audio Toggle */}
           <button
+            type="button"
             onClick={onToggleAudio}
-            className={`flex items-center gap-1.5 font-mono text-xs px-3 py-2 rounded-lg border transition-all cursor-pointer ${
+            className={`h-8 px-2.5 rounded-lg flex items-center gap-1.5 font-sans text-xs border transition-all active:scale-95 cursor-pointer ${
               audioEnabled 
-                ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]' 
-                : 'bg-slate-800/80 border-white/10 text-slate-400 hover:text-slate-200'
+                ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]' 
+                : 'bg-white/[0.06] hover:bg-white/[0.12] border-white/10 text-slate-400 hover:text-white'
             }`}
             title="Activer / désactiver la voix-off (Touche M)"
           >
             {audioEnabled ? (
               <>
                 <Volume2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>AUDIO ON</span>
+                <span className="hidden sm:inline">Audio On</span>
               </>
             ) : (
               <>
                 <VolumeX className="w-3.5 h-3.5 text-slate-400" />
-                <span>AUDIO OFF</span>
+                <span className="hidden sm:inline">Audio Off</span>
               </>
             )}
           </button>
 
-          {/* Chapter Selector Pills */}
-          <div className="flex items-center gap-1 sm:gap-1.5 ml-1 border-l border-white/10 pl-2 sm:pl-3">
-            {STORY_CHAPTERS.map((ch, idx) => (
-              <button
-                key={ch.id}
-                onClick={() => onJumpToChapter(idx)}
-                className={`text-[11px] font-mono px-2 sm:px-2.5 py-1.5 rounded-md transition-all cursor-pointer ${
-                  idx === activeChapterIndex
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
-                }`}
-                title={`Aller à l'Acte 0${ch.id}`}
-              >
-                Acte 0{ch.id}
-              </button>
-            ))}
+          {/* Vertical Divider */}
+          <div className="h-5 w-px bg-white/10 mx-0.5 hidden sm:block" />
+
+          {/* Unified Actes Segmented Control */}
+          <div className="h-8 p-0.5 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-0.5">
+            {STORY_CHAPTERS.map((ch, idx) => {
+              const isActive = idx === activeChapterIndex;
+              return (
+                <button
+                  key={ch.id}
+                  type="button"
+                  onClick={() => onJumpToChapter(idx)}
+                  className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
+                  }`}
+                  title={`Aller à l'Acte 0${ch.id}`}
+                >
+                  Acte 0{ch.id}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Timeline Progress Bar & Timecode */}
-        <div className="w-full flex-1 flex items-center gap-4 max-w-2xl">
+        {/* GROUP 2: Timeline Progress & Timecode */}
+        <div className="w-full xl:w-auto flex-1 flex items-center gap-3 min-w-[220px] max-w-xl order-last xl:order-none">
           <div 
             onClick={handleProgressBarClick}
-            className="relative flex-1 h-2.5 bg-slate-800/90 hover:bg-slate-800 border border-white/10 rounded-full cursor-pointer overflow-hidden group transition-all"
+            className="relative flex-1 h-2 bg-white/[0.08] hover:bg-white/[0.12] border border-white/10 rounded-full cursor-pointer overflow-hidden group transition-all"
+            title="Cliquer pour naviguer dans la timeline"
           >
             {/* Fill Bar */}
             <div 
@@ -167,94 +178,98 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_8px_#00f0ff] scale-0 group-hover:scale-100 transition-transform" />
             </div>
 
-            {/* Chapter Milestones Dividers */}
+            {/* Act Milestones */}
             {STORY_CHAPTERS.map((ch, idx) => {
               if (idx === 0) return null;
               const leftPercent = (ch.tStart / TOTAL_DURATION) * 100;
               return (
                 <div 
                   key={idx}
-                  className="absolute top-0 bottom-0 w-0.5 bg-white/30 pointer-events-none"
+                  className="absolute top-0 bottom-0 w-0.5 bg-white/25 pointer-events-none"
                   style={{ left: `${leftPercent}%` }}
-                  title={ch.tag}
                 />
               );
             })}
           </div>
 
-          {/* Precise Timecode Clock */}
-          <div className="font-mono text-xs md:text-sm text-cyan-400 font-bold tracking-wider whitespace-nowrap min-w-[90px] text-right">
+          {/* Timecode */}
+          <div className="font-mono text-xs text-cyan-400 font-semibold tracking-wider whitespace-nowrap tabular-nums">
             {formatTime(currentTime)} <span className="text-slate-500 font-normal">/ {formatTime(duration)}</span>
           </div>
         </div>
 
-        {/* View Mode Selector: 3 Directions + Cockpit */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-white/10 backdrop-blur-xl">
+        {/* GROUP 3: View Modes & Action Tools */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Unified View Mode Segmented Control */}
           {onSelectViewMode && (
-            <>
+            <div className="h-8 p-0.5 rounded-lg bg-white/[0.04] border border-white/10 flex items-center gap-0.5">
               <button
-                onClick={() => onSelectViewMode('cinematic')}
-                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
-                  viewMode === 'cinematic'
-                    ? 'bg-cyan-500 text-black font-bold shadow-lg shadow-cyan-500/20'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-                title="Direction 1 : Film multi-plans avec parallaxe 2.5D, nuages et laser"
-              >
-                1. CINÉ 2.5D
-              </button>
-              <button
-                onClick={() => onSelectViewMode('keynote')}
-                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
-                  viewMode === 'keynote'
-                    ? 'bg-emerald-400 text-black font-bold shadow-lg shadow-emerald-400/20'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-                title="Direction 2 : Apple Keynote, typographie cinétique et métriques"
-              >
-                2. KEYNOTE
-              </button>
-              <button
+                type="button"
                 onClick={() => onSelectViewMode('footage')}
-                className={`px-2.5 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
+                className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
                   viewMode === 'footage'
-                    ? 'bg-amber-400 text-black font-bold shadow-lg shadow-amber-400/20'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
                 }`}
-                title="Direction 3 : Véritables clips vidéo réels (B-Roll documentaire)"
+                title="Mode Documentaire Vidéo B-Roll"
               >
-                3. FOOTAGE
+                Footage
               </button>
               <button
-                onClick={() => onSelectViewMode('cockpit')}
-                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono tracking-wider transition-all ${
-                  viewMode === 'cockpit'
-                    ? 'bg-sky-500 text-black font-bold shadow-lg shadow-sky-500/20'
-                    : 'text-slate-400 hover:text-white'
+                type="button"
+                onClick={() => onSelectViewMode('cinematic')}
+                className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                  viewMode === 'cinematic'
+                    ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
                 }`}
-                title="Version originale V1 Cockpit HUD"
+                title="Mode Cinématographique 2.5D"
+              >
+                Ciné 2.5D
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectViewMode('keynote')}
+                className={`h-7 px-2.5 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                  viewMode === 'keynote'
+                    ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
+                }`}
+                title="Mode Apple Keynote"
+              >
+                Keynote
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectViewMode('cockpit')}
+                className={`h-7 px-2 rounded-md font-sans text-xs transition-all cursor-pointer ${
+                  viewMode === 'cockpit'
+                    ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-400/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
+                }`}
+                title="Mode Télémétrie 3D Cockpit"
               >
                 V1 HUD
               </button>
-            </>
+            </div>
           )}
 
           {/* Fullscreen Button */}
           <button
             type="button"
             onClick={toggleFullscreen}
-            className="flex items-center gap-1.5 bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white font-mono text-xs px-3 py-1.5 rounded-lg border border-white/10 transition-colors cursor-pointer"
-            title={isFullscreen ? "Quitter le plein écran (Échap ou F11)" : "Passer en plein écran (F11)"}
+            className="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white font-sans text-xs border border-white/10 transition-all active:scale-95 cursor-pointer"
+            title={isFullscreen ? "Quitter le plein écran (Échap ou F11)" : "Plein écran (F11)"}
           >
             {isFullscreen ? (
               <>
                 <Minimize2 className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="hidden sm:inline">FENÊTRÉ</span>
+                <span className="hidden sm:inline">Fenêtré</span>
               </>
             ) : (
               <>
                 <Maximize2 className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="hidden sm:inline">PLEIN ÉCRAN</span>
+                <span className="hidden sm:inline">Plein Écran</span>
               </>
             )}
           </button>
@@ -263,11 +278,11 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           <a
             href={`${import.meta.env.BASE_URL}MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4`}
             download="MARTINEZ_Thomas_Grand_Prix_VIE_2026.mp4"
-            className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-mono font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all active:scale-95 cursor-pointer"
-            title="Télécharger la vidéo officielle du concours (1080p 60fps MP4, 85.00s)"
+            className="h-8 px-3 rounded-lg flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-sans font-semibold text-xs shadow-[0_0_14px_rgba(16,185,129,0.35)] transition-all active:scale-95 cursor-pointer"
+            title="Télécharger la vidéo officielle du concours (1080p 60fps MP4, 85s)"
           >
             <Download className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">TÉLÉCHARGER MP4</span>
+            <span className="hidden sm:inline">Télécharger MP4</span>
             <span className="sm:hidden">MP4</span>
           </a>
         </div>
