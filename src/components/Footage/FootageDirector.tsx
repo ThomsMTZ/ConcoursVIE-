@@ -53,7 +53,7 @@ export const SHOTS: ShotDef[] = [
   { id: '2_3', src: `${import.meta.env.BASE_URL}assets/videos/act2_team_agile.mp4`, tStart: 37.0, tEnd: 44.5, label: 'AGILE SPRINT COLLABORATION // BUCHAREST TEAM', act: 1 },
 
   // Act 3
-  { id: '3_1', src: `${import.meta.env.BASE_URL}assets/videos/act3_real_cabis_scan.mp4`, tStart: 44.5, tEnd: 52.0, label: 'BIOMETRIC SCAN // ICAO 9303 MATCHING', act: 2 },
+  { id: '3_1', src: `${import.meta.env.BASE_URL}assets/videos/act3_terminal_flow.mp4`, tStart: 44.5, tEnd: 52.0, label: 'CABIS BORDER CONTROL // AIRPORT TERMINAL', act: 2 },
   { id: '3_2', src: `${import.meta.env.BASE_URL}assets/videos/act3_egate_open.mp4`, tStart: 52.0, tEnd: 59.5, label: 'CABIS SMART E-GATE // AUTOMATED CLEARANCE', act: 2 },
   { id: '3_3', src: `${import.meta.env.BASE_URL}assets/videos/act3_thomas_cabis_spy.mp4`, tStart: 59.5, tEnd: 67.5, label: 'SCHENGEN BORDER PASSING // FIELD SUCCESS', act: 2 },
 

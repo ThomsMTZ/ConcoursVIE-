@@ -27,7 +27,7 @@ SHOTS = [
     {"id": "2_2", "file": "public/assets/videos/act2_real_arcul_de_triumf.mp4", "dur": 8.0, "hflip": False},
     {"id": "2_3", "file": "public/assets/videos/act2_team_agile.mp4", "dur": 8.0, "hflip": False},
     # Acte 3 (44.5s - 67.5s)
-    {"id": "3_1", "file": "public/assets/videos/act3_real_cabis_scan.mp4", "dur": 8.0, "hflip": False},
+    {"id": "3_1", "file": "public/assets/videos/act3_terminal_flow.mp4", "dur": 8.0, "hflip": False},
     {"id": "3_2", "file": "public/assets/videos/act3_egate_open.mp4", "dur": 8.0, "hflip": False},
     {"id": "3_3", "file": "public/assets/videos/act3_thomas_cabis_spy.mp4", "dur": 8.5, "hflip": False},
     # Acte 4 (67.5s - 85.0s)
