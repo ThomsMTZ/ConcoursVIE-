@@ -23,7 +23,7 @@ export const STORY_CHAPTERS: Chapter[] = [
     tag: "01. ALTITUDE DE CROISIÈRE — MISSION AMS",
     title: "Contrôler les trajectoires dans le ciel.",
     summary: "Rapatriement et migration d'outils critiques de gestion du trafic aérien.",
-    subtitles: "« À trente mille pieds d'altitude, une trajectoire ne doit rien au hasard. En arrivant à Bucarest en mai 2025 pour mon V.I.E, j'ai pris de la hauteur sur le projet AMS : moderniser et migrer des outils critiques de gestion du trafic aérien pour plus de cent mille vols quotidiens. En tant que développeur Full-Stack et Scrum Master, j'ai orchestré les sprints d'une équipe biculturelle, alliant rigueur aéronautique et développement réactif. »",
+    subtitles: "« À trente mille pieds d’altitude, une trajectoire ne doit rien au hasard. En arrivant à Bucarest pour mon V.I.E, j’ai rejoint le projet AMS : moderniser les outils critiques du trafic aérien européen. Comme développeur Full-Stack et Scrum Master, j'ai piloté nos sprints biculturels entre rigueur aéronautique et agilité. »",
     metrics: [
       {
         label: "PROJET AMS",
@@ -47,7 +47,7 @@ export const STORY_CHAPTERS: Chapter[] = [
     tag: "02. DESCENTE À TRAVERS LES NUAGES — ROUMANIE",
     title: "Plonger au cœur de l'écosystème roumain.",
     summary: "Immersion culturelle et synergie avec les ingénieurs locaux francophiles.",
-    subtitles: "« Traverser les nuages pour atterrir en Roumanie, c'est s'ancrer dans un carrefour technologique européen d'une vitalité remarquable. À Bucarest, j'ai découvert un écosystème d'ingénieurs talentueux et francophiles, dont la réactivité et la créativité ont immédiatement nourri nos méthodes. Cette immersion culturelle au quotidien a soudé notre équipe et renforcé l'agilité de nos architectures. »",
+    subtitles: "« Atterrir en Roumanie, c’est plonger dans un carrefour technologique d'une vitalité remarquable. À Bucarest, j’ai découvert des ingénieurs talentueux et francophiles. Cette synergie culturelle au quotidien a soudé notre équipe et décuplé la vélocité de nos architectures. »",
     metrics: [
       {
         label: "ÉQUIPE AGILE",
@@ -71,7 +71,7 @@ export const STORY_CHAPTERS: Chapter[] = [
     tag: "03. SUR LE TARMAC — PORTIQUES CABIS",
     title: "Du radar aérien aux portiques biométriques.",
     summary: "Sécurisation et fluidification des flux passagers en aéroport de bout en bout.",
-    subtitles: "« En mars 2026, ma mission franchit une nouvelle étape décisive avec le projet CABIS. Du suivi des avions dans le ciel, je passe à la sécurisation des passagers dans les aéroports grâce aux portiques de contrôle biométrique. De la caméra de reconnaissance faciale haute sécurité aux algorithmes d'authentification temps réel, mon engagement Full-Stack s'incarne directement à chaque franchissement de frontière. »",
+    subtitles: "« Avec le projet CABIS, ma mission franchit une étape décisive : sécuriser les passagers dans les aéroports grâce aux portiques biométriques. De la reconnaissance faciale aux algorithmes temps réel, mon rôle Full-Stack s’incarne concrètement à chaque passage de frontière. »",
     metrics: [
       {
         label: "PROJET CABIS",
@@ -95,7 +95,7 @@ export const STORY_CHAPTERS: Chapter[] = [
     tag: "04. IMPACT INTERNATIONAL — NOUVELLE TRAJECTOIRE",
     title: "L'excellence française portée par l'énergie roumaine.",
     summary: "La rencontre des savoir-faire comme tremplin d'une carrière internationale.",
-    subtitles: "« Des couloirs aériens jusqu'aux terminaux internationaux, ce V.I.E prouve que l'alliance du savoir-faire technologique français et de l'énergie roumaine repousse les frontières de l'ingénierie. Plus qu'une mission professionnelle, cette aventure a forgé mon leadership, accéléré mes compétences et changé pour toujours ma propre trajectoire. »",
+    subtitles: "« Des couloirs aériens aux terminaux internationaux, l’alliance du savoir-faire français et de l’énergie roumaine repousse les frontières de l'ingénierie. Cette aventure a forgé mon leadership et transformé pour toujours ma propre trajectoire. »",
     metrics: [
       {
         label: "RAYONNEMENT",
