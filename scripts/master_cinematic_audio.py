@@ -28,10 +28,10 @@ TOTAL_DURATION = 85.0
 TOTAL_SAMPLES = int(SAMPLE_RATE * TOTAL_DURATION) # 4 080 000
 
 ACTS_CONFIG = [
-    {"name": "Acte 1", "file": "assets/Acte 1.m4a", "start_s": 0.0, "end_s": 22.0},
-    {"name": "Acte 2", "file": "assets/Acte 2.m4a", "start_s": 22.0, "end_s": 44.0},
-    {"name": "Acte 3", "file": "assets/Acte 3.m4a", "start_s": 44.0, "end_s": 67.0},
-    {"name": "Acte 4", "file": "assets/Acte 4.m4a", "start_s": 67.0, "end_s": 85.0},
+    {"name": "Acte 1", "file": "assets/Acte 1.m4a", "start_s": 0.5, "end_s": 22.0},
+    {"name": "Acte 2", "file": "assets/Acte 2.m4a", "start_s": 22.4, "end_s": 44.0},
+    {"name": "Acte 3", "file": "assets/Acte 3.m4a", "start_s": 44.3, "end_s": 67.0},
+    {"name": "Acte 4", "file": "assets/Acte 4.m4a", "start_s": 67.4, "end_s": 85.0},
 ]
 
 def load_and_assemble_acts(root_dir, sample_rate, total_samples):
