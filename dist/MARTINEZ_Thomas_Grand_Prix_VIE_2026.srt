@@ -1,0 +1,42 @@
+1
+00:00:00,500 --> 00:00:09,800
+À trente mille pieds d’altitude, une trajectoire ne doit rien au hasard.
+En arrivant à Bucarest pour mon V.I.E, j’ai rejoint le projet AMS :
+
+2
+00:00:09,800 --> 00:00:19,500
+moderniser les outils critiques du trafic aérien européen.
+Comme développeur Full-Stack et Scrum Master,
+j'ai piloté nos sprints biculturels entre rigueur aéronautique et agilité.
+
+3
+00:00:22,400 --> 00:00:31,800
+Atterrir en Roumanie, c’est plonger dans un carrefour technologique
+d'une vitalité remarquable.
+
+4
+00:00:31,800 --> 00:00:41,500
+À Bucarest, j’ai découvert des ingénieurs talentueux et francophiles.
+Cette synergie culturelle au quotidien a soudé notre équipe
+et décuplé la vélocité de nos architectures.
+
+5
+00:00:44,300 --> 00:00:53,800
+Avec le projet CABIS, ma mission franchit une étape décisive :
+sécuriser les passagers dans les aéroports grâce aux portiques biométriques.
+
+6
+00:00:53,800 --> 00:00:63,200
+De la reconnaissance faciale aux algorithmes temps réel,
+mon rôle Full-Stack s’incarne concrètement à chaque passage de frontière.
+
+7
+00:00:67,400 --> 00:00:75,200
+Des couloirs aériens aux terminaux internationaux,
+l’alliance du savoir-faire français et de l’énergie roumaine
+repousse les frontières de l'ingénierie.
+
+8
+00:00:75,200 --> 00:00:82,800
+Cette aventure a forgé mon leadership
+et transformé pour toujours ma propre trajectoire.
